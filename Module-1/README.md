@@ -79,4 +79,14 @@ Implementar la pantalla completa con la barra de navegación y el footer.
 - La barra de navegación tiene que mantenerse fija al hacer scroll.
 - La hoja de estilos tiene que ser definida en un documento `.css` para ser importada en el documento html.
 
-<img src="./assets/images//portada.png" alt="Como se deberia ver la página al terminar, con una barra de navegación, modelos con diferentes prendas en el centro y un footer">
+<img src="./assets/images/portada.png" alt="Como se deberia ver la página al terminar, con una barra de navegación, modelos con diferentes prendas en el centro y un footer">
+
+### Apartado extra
+
+---
+
+Implementa para la barra de navegación y el pie de página un diseño que se adapte a la pantalla, nosotros hemos calculado este diseño para un ancho máximo de `920px`.
+
+<img src="./assets/images/diseño responsive menu.png" alt="Como se deberia ver la página al terminar el diseño responsive, especificamente el inicio de la pagina">
+
+<img src="./assets/images/diseño responsive pie de página.png" alt="Como se deberia ver la página al terminar el diseño responsive, especificamente el pie de pagina">

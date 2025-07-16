@@ -29,6 +29,7 @@ nav {
   padding: 16px;
   padding-inline: 32px;
   border-bottom: 1px solid black;
+  z-index: 1;
 }
 
 .navlinks {
@@ -55,6 +56,11 @@ nav {
   width: 15%;
 }
 
+main {
+  min-height: 80vh;
+  flex-grow: 1;
+}
+
 h1 {
   font-size: 32px;
   margin-inline: 32px;
@@ -78,28 +84,22 @@ article img {
   display: flex;
   justify-content: space-between;
   padding: 16px;
-  span {
-    font-size: 14px;
-  }
+}
+.item-container a {
+  display: block;
+}
+
+.item-container img {
+  width: 100%;
+  display: block;
+}
+
+.item-container span {
+  font-size: 14px;
 }
 
 .item-container:hover {
   animation: pop-up 1s linear;
-}
-
-@keyframes pop-up {
-  0% {
-    transform: scale(1);
-    transform: rotate(0);
-  }
-  50% {
-    transform: scale(1.02);
-    transform: rotate(5deg);
-  }
-  100% {
-    transform: scale(1);
-    transform: rotate(0);
-  }
 }
 
 .price {
@@ -157,5 +157,20 @@ footer {
     padding-block: 16px;
     font-weight: bold;
     border-bottom: 1px solid var(--white);
+  }
+}
+
+@keyframes pop-up {
+  0% {
+    transform: scale(1);
+    transform: rotate(0);
+  }
+  50% {
+    transform: scale(1.02);
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: scale(1);
+    transform: rotate(0);
   }
 }
