@@ -1,0 +1,161 @@
+:root {
+  --white: #ffffff;
+  --black: #212429;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  /* Como no hay sidebar la estructura principal es unidimencional, por lo cual Flex debería ser suficiente */
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: var(--white);
+  font-size: 16px;
+  padding: 16px;
+  padding-inline: 32px;
+  border-bottom: 1px solid black;
+}
+
+.navlinks {
+  list-style: none;
+  display: flex;
+}
+
+.navlink {
+  padding: 8px;
+
+  a {
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  a:hover {
+    border-bottom: 1px var(--black) solid;
+  }
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+}
+
+h1 {
+  font-size: 32px;
+  margin-inline: 32px;
+  text-transform: uppercase;
+}
+
+.clothes-list {
+  margin-block: 32px;
+  margin-inline: auto;
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+article img {
+  border-radius: 8px;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  span {
+    font-size: 14px;
+  }
+}
+
+.item-container:hover {
+  animation: pop-up 1s linear;
+}
+
+@keyframes pop-up {
+  0% {
+    transform: scale(1);
+    transform: rotate(0);
+  }
+  50% {
+    transform: scale(1.02);
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: scale(1);
+    transform: rotate(0);
+  }
+}
+
+.price {
+  font-weight: bold;
+}
+
+footer {
+  background: var(--black);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px;
+  font-size: 16px;
+
+  span {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  border-radius: 50%;
+  padding: 8px;
+}
+
+@media (max-width: 920px) {
+  .navlinks,
+  .icon-container {
+    display: none;
+  }
+  nav {
+    justify-content: center;
+  }
+  h1 {
+    text-align: center;
+  }
+  .clothes-list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  footer {
+    flex-direction: column;
+    align-items: start;
+  }
+  .footer-item {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    padding-block: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--white);
+  }
+}
