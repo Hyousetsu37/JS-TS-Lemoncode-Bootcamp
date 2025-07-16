@@ -87,6 +87,8 @@ article img {
 }
 .item-container a {
   display: block;
+  text-decoration: none;
+  color: var(--black);
 }
 
 .item-container img {
