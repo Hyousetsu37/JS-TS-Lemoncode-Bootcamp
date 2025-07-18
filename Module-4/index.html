@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Módulo 4</title>
+  </head>
+  <body>
+    <main>
+      <section>
+        <div class="turno-display">
+          <h1 class="numero-turno" id="numero-turno">01</h1>
+          <p class="texto-turno">Por favor, acérquese al mostrador</p>
+        </div>
+      </section>
+      <section class="boton-display">
+        <button id="previous">Previous</button>
+        <button id="next">Next</button>
+        <button id="reset">Reset</button>
+      </section>
+      <section class="boton-display">
+        <label id="turno-label" for="elegir-turno"
+          >Escriba el numero de turno:</label
+        >
+        <input type="number" id="elegir-turno" placeholder="0" />
+        <button id="boton-elegir-turno">Elegir Turno</button>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
