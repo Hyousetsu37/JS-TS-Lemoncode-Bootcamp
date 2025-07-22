@@ -5,3 +5,5 @@
 2. [Tipos de datos y Operadores](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-2)
 3. [Variables](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-3)
 4. [Funciones](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-4)
+5. [Condicionales](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-5)
+6. [Imports](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-6)
