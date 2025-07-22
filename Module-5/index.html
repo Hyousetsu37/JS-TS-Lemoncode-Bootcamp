@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Módulo 4</title>
+  </head>
+  <body>
+    <main>
+      <section>
+        <div class="carta-display">
+          <p class="texto-score" style="display: none" id="result-display"></p>
+          <p class="texto-score" id="texto-score">
+            Su puntuación actual es:
+            <span id="puntuacion-actual">0</span>
+          </p>
+          <p class="texto-score" style="display: none" id="hubiera-display"></p>
+          <img
+            id="carta-para-mostrar"
+            src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg"
+            alt="carta para mostrar"
+          />
+        </div>
+      </section>
+      <section class="boton-display">
+        <button id="pedir-carta">Pide Carta</button>
+        <button id="plantarse">Me Planto</button>
+        <button id="que-habria-pasado">Que habria pasado</button>
+        <button id="reset">Reset</button>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
