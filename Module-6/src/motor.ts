@@ -1,20 +1,21 @@
-export const dameCarta = (): number => {
-  let givenCard = Math.random() * 10 + 1;
-  givenCard = Math.floor(givenCard);
-  givenCard = givenCard > 7 ? givenCard + 2 : givenCard;
-  return givenCard;
+import { config } from "./model";
+
+//Logica
+export const getRandomNumber = (): number => {
+  return Math.floor(Math.random() * 10 + 1);
+};
+export const dameCarta = (randomNumber: number): number => {
+  return randomNumber > 7 ? randomNumber + 2 : randomNumber;
+};
+
+export const getCardPoints = (card: number): number => {
+  return card > 7 ? 0.5 : card;
 };
 
 export const evalGameStatus = (score: number): string => {
-  if (score < 4) {
-    return "Has sido muy conservador";
-  } else if (score <= 5) {
-    return "Te ha entrado el canguelo eh?";
-  } else if (score <= 7) {
-    return "Casi casi...";
-  } else if (score === 7.5) {
-    return "¡ Lo has clavado! ¡Enhorabuena!";
-  } else {
-    return "Game Over";
-  }
+  if (score === 7.5) return config.gameMessages.winner;
+  if (score > 7.5) return config.gameMessages.gameOver;
+  if (score >= 6) return config.gameMessages.almost;
+  if (score >= 5) return config.gameMessages.scared;
+  return config.gameMessages.conservative;
 };
