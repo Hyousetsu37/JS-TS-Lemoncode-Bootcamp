@@ -1,5 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
-import { dameCarta, evalGameStatus, getCardPoints } from "./motor";
+import {
+  dameCarta,
+  evalGameStatus,
+  getCardPoints,
+  getRandomNumber,
+} from "./motor";
 import { config } from "./model";
 
 //Apartados obligatorios
@@ -39,6 +44,36 @@ describe("Testearemos la lógica que permite evaluar si el juego ha terminado, s
 //Apartados opcionales
 describe("Testearemos las funciones que generan los numeros de las cartas", () => {
   //Habrás tenido que generar una función que genere un número aleatorio entre 0 y 10 y en el caso de que este número sea mayor que 7, sume 2 al resultado final. Para asegurarnos de que la función se comporta como se espera, se van a realizar sus pruebas unitarias correspondientes.
+
+  it("Deberia devolver un numero random en el rango que esperamos, en este caso el limite superior de 10", () => {
+    const generatedNumber = 0.999999;
+    const expectedNumber = 10;
+    vi.spyOn(Math, "random").mockReturnValue(generatedNumber);
+    const result = getRandomNumber();
+    expect(result).toBe(expectedNumber);
+  });
+
+  it("Deberia devolver un numero random en el rango que esperamos, en este caso el limite inferior de 1", () => {
+    const generatedNumber = 0;
+    const expectedNumber = 1;
+    vi.spyOn(Math, "random").mockReturnValue(generatedNumber);
+    const result = getRandomNumber();
+    expect(result).toBe(expectedNumber);
+  });
+
+  //Testearemos lo relacionado a la funcion dame carta que recibe un randomNumber el cual probamos anteriormente
+  it("Deberia devolver 1 si el numero generado aleatoreamente es 1", () => {
+    const expectedNumber = 1;
+    const randomNumber = 1;
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
+  });
+
+  it("Deberia devolver 7 si el numero generado aleatoreamente es 7", () => {
+    const expectedNumber = 7;
+    const randomNumber = 7;
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
+  });
+
   it("Deberia devolver 10 si el numero generado aleatoreamente es 8", () => {
     const expectedNumber = 10;
     const randomNumber = 8;
