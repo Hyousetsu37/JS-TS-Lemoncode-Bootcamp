@@ -1,5 +1,79 @@
-let currentScore: number = 0;
-const scoreText = document.getElementById("texto-score");
+//Interfaces necesarias para tipar nuestro objeto
+interface ConfigObject {
+  imageUrls: imageUrls;
+  gameMessages: gameMessages;
+}
+
+interface imageUrls {
+  front: string;
+  back: string;
+  cards: cards;
+}
+
+interface cards {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+  6: string;
+  7: string;
+  10: string;
+  11: string;
+  12: string;
+}
+interface gameMessages {
+  conservative: string;
+  scared: string;
+  almost: string;
+  winner: string;
+  gameOver: string;
+}
+
+//Interfaces necesarias para tipar nuestro estado
+interface gameStateObject {
+  score: number;
+  isGameOver: boolean;
+  lastCard: number;
+}
+
+//Creamos un objeto con todos nuestros textos y URL
+const config: ConfigObject = {
+  imageUrls: {
+    front:
+      "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/",
+    back: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg",
+    cards: {
+      1: "1_as-copas.jpg",
+      2: "2_dos-copas.jpg",
+      3: "3_tres-copas.jpg",
+      4: "4_cuatro-copas.jpg",
+      5: "5_cinco-copas.jpg",
+      6: "6_seis-copas.jpg",
+      7: "7_siete-copas.jpg",
+      10: "10_sota-copas.jpg",
+      11: "11_caballo-copas.jpg",
+      12: "12_rey-copas.jpg",
+    },
+  },
+  gameMessages: {
+    conservative: "Has sido muy conservador",
+    scared: "Te ha entrado el canguelo eh?",
+    almost: "Casi casi...",
+    winner: "¡ Lo has clavado! ¡Enhorabuena!",
+    gameOver: "Game Over",
+  },
+};
+
+let gameState: gameStateObject = {
+  score: 0,
+  isGameOver: false,
+  lastCard: 0, // Para mostrar la carta actual
+};
+
+//Seleccionamos los elementos del DOM
+
+const scoreText = document.getElementById("puntuacion-actual");
 const askCardButton = document.getElementById("pedir-carta");
 const stayButton = document.getElementById("plantarse");
 const resetButton = document.getElementById("reset");
@@ -8,166 +82,148 @@ const afterButton = document.getElementById("que-habria-pasado");
 const resultDisplay = document.getElementById("result-display");
 const hubieraDisplay = document.getElementById("hubiera-display");
 
-const muestraPuntuacion = () => {
-  const scoreDisplay = document.getElementById("puntuacion-actual");
-  if (scoreDisplay && scoreDisplay instanceof HTMLElement) {
-    scoreDisplay.innerHTML = currentScore.toString();
-  }
+//Logica
+const getRandomNumber = (): number => {
+  return Math.floor(Math.random() * 10 + 1);
+};
+const dameCarta = (randomNumber: number): number => {
+  return randomNumber > 7 ? randomNumber + 2 : randomNumber;
 };
 
-const dameCarta = (): number => {
-  let givenCard = Math.random() * 10 + 1;
-  givenCard = Math.floor(givenCard);
-  givenCard = givenCard > 7 ? givenCard + 2 : givenCard;
-  return givenCard;
-};
-
-const mostrarCarta = (card: number): void => {
-  let cardToShow = "";
-  switch (card) {
-    case 1:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
-      break;
-    case 2:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
-      break;
-    case 3:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
-      break;
-    case 4:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
-      break;
-    case 5:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
-      break;
-    case 6:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
-      break;
-    case 7:
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
-      break;
-    case 10: // Sota de copas
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
-      break;
-    case 11: // Caballo de copas
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
-      break;
-    case 12: // Rey de copas
-      cardToShow =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
-      break;
-    default:
-      cardToShow = ""; // Or a fallback image
-  }
-  if (displayImage && displayImage instanceof HTMLImageElement) {
-    displayImage.src = cardToShow;
-  }
+const getCardPoints = (card: number): number => {
+  return card > 7 ? 0.5 : card;
 };
 
 const evalGameStatus = (score: number): string => {
-  if (score < 4) {
-    return "Has sido muy conservador";
-  } else if (score <= 5) {
-    return "Te ha entrado el canguelo eh?";
-  } else if (score <= 7) {
-    return "Casi casi...";
-  } else if (score === 7.5) {
-    return "¡ Lo has clavado! ¡Enhorabuena!";
-  } else {
-    return "Game Over";
-  }
+  if (score === 7.5) return config.gameMessages.winner;
+  if (score > 7.5) return config.gameMessages.gameOver;
+  if (score >= 6) return config.gameMessages.almost;
+  if (score >= 5) return config.gameMessages.scared;
+  return config.gameMessages.conservative;
 };
 
-const gameOver = (result: string): void => {
+//Renderizado de la UI
+
+function renderGame() {
+  // Mostrar la puntuación
+  if (scoreText) {
+    scoreText.textContent = gameState.score.toString();
+  }
+
+  // Mostrar la carta
+  if (displayImage instanceof HTMLImageElement) {
+    const cardKey = gameState.lastCard as keyof typeof config.imageUrls.cards; //Con esto le decimos a TypeScript que el numero de lastCard es un numero valido de config.imageUrls.cards, es decir una de las opciones de la interfaz cards creadas al inicio del documento y no un numero cualquiera
+    const imageUrl = config.imageUrls.cards[cardKey];
+    displayImage.src = imageUrl
+      ? `${config.imageUrls.front}${imageUrl}`
+      : config.imageUrls.back;
+  }
+
+  // Actualizar estado de los botones principales
   if (
-    askCardButton &&
-    stayButton &&
     askCardButton instanceof HTMLButtonElement &&
     stayButton instanceof HTMLButtonElement
   ) {
-    askCardButton.disabled = true;
-    stayButton.disabled = true;
+    askCardButton.disabled = gameState.isGameOver;
+    stayButton.disabled = gameState.isGameOver;
   }
-  if (scoreText && resultDisplay) {
-    scoreText.innerHTML = `Puntuación final: <span id="puntuacion-actual">${currentScore}</span>`;
-    resultDisplay.innerHTML = result;
-    resultDisplay.style = "display:block;";
+
+  // Mostrar mensaje de resultado si el juego ha terminado
+  if (resultDisplay) {
+    if (gameState.isGameOver) {
+      resultDisplay.textContent = evalGameStatus(gameState.score);
+      resultDisplay.style.display = "block";
+    } else {
+      resultDisplay.style.display = "none";
+    }
   }
-};
+
+  // Mostrar el botón "Qué habría pasado"
+  if (afterButton instanceof HTMLButtonElement) {
+    const showAfterButton = gameState.isGameOver && gameState.score < 7.5;
+    afterButton.style.display = showAfterButton ? "block" : "none";
+  }
+
+  // Limpiar el mensaje de "hubiera" si no es necesario que se vea
+  if (hubieraDisplay && !gameState.isGameOver) {
+    hubieraDisplay.style.display = "none";
+  }
+}
+
+//Handlers
 
 const askButtonHandler = () => {
-  const currentCard = dameCarta();
-  mostrarCarta(currentCard);
-  currentScore += currentCard <= 7 ? currentCard : 0.5;
-  if (currentScore > 7.5) {
-    gameOver(evalGameStatus(currentScore));
+  if (gameState.isGameOver) return;
+
+  const card = dameCarta(getRandomNumber());
+  const points = getCardPoints(card);
+
+  gameState.lastCard = card;
+  gameState.score += points;
+
+  if (gameState.score >= 7.5) {
+    gameState.isGameOver = true;
   }
-  muestraPuntuacion();
+  renderGame();
 };
 
 const stayButtonHandler = () => {
-  gameOver(evalGameStatus(currentScore));
-  if (currentScore < 7.5 && afterButton instanceof HTMLButtonElement) {
-    afterButton.style = "display:block;";
-  }
-};
-
-const resetButtonHandler = () => {
-  resetGame();
-};
-
-const resetGame = () => {
-  currentScore = 0;
-  if (displayImage instanceof HTMLImageElement) {
-    displayImage.src =
-      "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
-  }
-  if (scoreText && hubieraDisplay && resultDisplay) {
-    scoreText.innerHTML = `Su puntuación actual es:
-            <span id="puntuacion-actual"></span>`;
-    resultDisplay.innerHTML = "";
-    resultDisplay.style = "display:none;";
-    hubieraDisplay.innerHTML = "";
-    hubieraDisplay.style = "display:none;";
-  }
-  if (
-    askCardButton instanceof HTMLButtonElement &&
-    stayButton instanceof HTMLButtonElement &&
-    afterButton instanceof HTMLButtonElement
-  ) {
-    askCardButton.disabled = false;
-    stayButton.disabled = false;
-    afterButton.disabled = false;
-    afterButton.style = "display:none;";
-  }
+  if (gameState.isGameOver) return;
+  gameState.isGameOver = true;
+  renderGame();
 };
 
 const afterButtonHandler = () => {
-  const currentCard = dameCarta();
-  mostrarCarta(currentCard);
-  let maybeScore = (currentCard <= 7 ? currentCard : 0.5) + currentScore;
+  if (!gameState.isGameOver) return;
+
+  const card = dameCarta(getRandomNumber());
+  const points = getCardPoints(card);
+  const maybeScore = gameState.score + points;
+
+  gameState.lastCard = card; // Mostramos la nueva carta
+
   if (hubieraDisplay) {
     hubieraDisplay.innerHTML = `Hubieras logrado este resultado: <span id="puntuacion-actual">${maybeScore}</span>`;
-    hubieraDisplay.style = "display:block;";
+    hubieraDisplay.style.display = "block";
   }
 
   if (afterButton instanceof HTMLButtonElement) {
-    afterButton.disabled = true;
+    afterButton.disabled = true; // Deshabilitamos el boton despues de usarlo
   }
-};
-//invocar cuando el Dom este listo
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
 
-askCardButton?.addEventListener("click", askButtonHandler);
-stayButton?.addEventListener("click", stayButtonHandler);
-resetButton?.addEventListener("click", resetButtonHandler);
-afterButton?.addEventListener("click", afterButtonHandler);
+  // Volvemos a renderizar por si la imagen de la carta cambio
+  renderGame();
+};
+
+const resetButtonHandler = () => {
+  gameState.score = 0;
+  gameState.isGameOver = false;
+  gameState.lastCard = 0; // Para que muestre el dorso
+
+  // Habilitar el botón "que habria pasado" de nuevo
+  if (afterButton instanceof HTMLButtonElement) {
+    afterButton.disabled = false;
+  }
+
+  renderGame();
+};
+
+//Inicializamos
+//Invocar cuando el Dom este listo
+document.addEventListener("DOMContentLoaded", () => {
+  if (askCardButton instanceof HTMLButtonElement) {
+    askCardButton.addEventListener("click", askButtonHandler);
+  }
+  if (stayButton instanceof HTMLButtonElement) {
+    stayButton?.addEventListener("click", stayButtonHandler);
+  }
+  if (resetButton instanceof HTMLButtonElement) {
+    resetButton?.addEventListener("click", resetButtonHandler);
+  }
+  if (afterButton instanceof HTMLButtonElement) {
+    afterButton?.addEventListener("click", afterButtonHandler);
+  }
+
+  // Pintamos el estado inicial del juego al cargar la pagina
+  renderGame();
+});
