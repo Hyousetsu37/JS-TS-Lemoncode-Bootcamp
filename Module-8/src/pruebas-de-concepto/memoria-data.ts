@@ -1,14 +1,3 @@
-export const initialCards = [
-  "card1",
-  "card1",
-  "card2",
-  "card2",
-  "card3",
-  "card3",
-  "card4",
-  "card4",
-  "card5",
-  "card5",
-  "card6",
-  "card6",
-];
+export const initialCards = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6];
+
+export let cardsFlipped = 0;
