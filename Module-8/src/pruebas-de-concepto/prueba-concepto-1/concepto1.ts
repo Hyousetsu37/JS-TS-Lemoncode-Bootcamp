@@ -1,4 +1,4 @@
-import { initialCards } from "../memoria-data";
+import { cartas } from "../memoria-data";
 
 export const shuffleArray = <T>(array: T[]): T[] => {
   const shuffledArray = [...array];
@@ -14,5 +14,5 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 };
 
 export const mainConcept1 = () => {
-  console.log(shuffleArray(initialCards));
+  console.log(shuffleArray(cartas));
 };
