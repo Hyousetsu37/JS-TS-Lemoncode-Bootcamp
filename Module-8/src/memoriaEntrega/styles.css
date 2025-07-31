@@ -23,10 +23,6 @@
   grid-template-rows: repeat(3, 1fr);
 }
 
-#concept-four-div {
-  display: flex;
-}
-
 /*Creado usando IA*/
 
 /* El contenedor que define el espacio 3D */
@@ -36,6 +32,11 @@
   perspective: 1000px; /* Esto crea el efecto de profundidad 3D */
   margin: 16px;
   cursor: pointer;
+  transition: scale 200ms ease-in;
+}
+
+.card-container:hover {
+  scale: 1.1;
 }
 
 /* El elemento que realmente gira */

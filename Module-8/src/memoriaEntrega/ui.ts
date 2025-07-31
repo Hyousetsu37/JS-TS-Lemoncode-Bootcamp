@@ -22,19 +22,24 @@ const createImg = (parent: HTMLElement, src: string) => {
   return createdImg;
 };
 
-export const turnBackDown = (indiceA: number, indiceB: number) => {
-  const elementA = document.querySelectorAll(`[data-index-id="${indiceA}"]`);
-  const elementB = document.querySelectorAll(`[data-index-id="${indiceB}"]`);
-  elementA.forEach((element) => {
+const updateCartaUi = () => {
+  tablero.cartas.forEach((carta, index) => {
+    const element = document.querySelector(`[data-index-id="${index}"]`);
     if (element instanceof HTMLElement) {
-      element.classList.remove("is-flipped");
+      if (carta.estaVuelta || carta.encontrada) {
+        element.classList.add("is-flipped");
+      } else {
+        element.classList.remove("is-flipped");
+      }
     }
   });
-  elementB.forEach((element) => {
-    if (element instanceof HTMLElement) {
-      element.classList.remove("is-flipped");
-    }
-  });
+};
+
+const updateIntentosUi = () => {
+  const intentos = document.getElementById("intentos");
+  if (intentos instanceof HTMLElement) {
+    intentos.textContent = tablero.intentos.toString();
+  }
 };
 
 const removeFlippedClass = <T>(element: T) => {
@@ -54,13 +59,17 @@ export const updateElements = (indexA: number, indexB: number) => {
 
 const voltearCartaUi = (index: number) => {
   const element = document.querySelector(`[data-index-id="${index}"]`);
-  element?.classList.add("is-flipped");
+  if (element instanceof HTMLElement) {
+    element.classList.add("is-flipped");
+  }
 };
 
 const checkGameStatus = (tablero: Tablero, index: number) => {
   if (sePuedeVoltearLaCarta(tablero, index)) {
     voltearLaCarta(tablero, index);
     voltearCartaUi(index);
+  } else {
+    alert("No puedes voltear esta carta");
   }
   if (tablero.estadoPartida === "DosCartasLevantadas") {
     const indexA = tablero.indiceCartaVolteadaA;
@@ -71,11 +80,17 @@ const checkGameStatus = (tablero: Tablero, index: number) => {
         if (esPartidaCompleta(tablero)) {
           setTimeout(() => {
             alert("Partida completada");
+            const button = document.getElementById("start-game");
+            if (button instanceof HTMLButtonElement) {
+              button.disabled = false;
+            }
           }, 200);
         }
       } else {
+        parejaNoEncontrada(tablero, indexA, indexB);
+        updateIntentosUi();
         setTimeout(() => {
-          parejaNoEncontrada(tablero, indexA, indexB);
+          updateCartaUi();
         }, 1000);
       }
     }
@@ -86,6 +101,20 @@ export const handleClicking = (element: HTMLElement, index: number): void => {
   element.addEventListener("click", () => {
     checkGameStatus(tablero, index);
   });
+};
+
+export const iniciarPartidaUi = (parent: HTMLElement, cards: Carta[]) => {
+  const intentosContainer = document.getElementById("intentos-container");
+  parent.innerHTML = "";
+
+  if (intentosContainer instanceof HTMLElement) {
+    intentosContainer.innerHTML = "";
+    const intentos = createDiv(intentosContainer, "intentos");
+    intentos.innerHTML =
+      '<h3>Numero de intentos: <span id="intentos">0</span></h3>';
+  }
+
+  createGrid(parent, cards);
 };
 
 export const createFullCard = (

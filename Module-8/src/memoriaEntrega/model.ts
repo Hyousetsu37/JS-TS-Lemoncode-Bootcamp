@@ -1,7 +1,3 @@
-export const initialCards = [1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6];
-
-export let cardsFlipped = 0;
-
 export interface Carta {
   idFoto: number; // id del 1 al 6 para 12 cartas, así identificamos rápido si es un gatito ,un perrito...
   // el ID se repete 2 veces en el array de cartas (hay dos cartas de un perro, hay dos cartas de un gato)
@@ -83,6 +79,7 @@ type EstadoPartida =
 
 export interface Tablero {
   cartas: Carta[];
+  intentos: number;
   estadoPartida: EstadoPartida;
   indiceCartaVolteadaA?: number;
   indiceCartaVolteadaB?: number;
@@ -90,6 +87,7 @@ export interface Tablero {
 
 const crearTableroInicial = (): Tablero => ({
   cartas: cartas,
+  intentos: 0,
   estadoPartida: "PartidaNoIniciada",
 });
 

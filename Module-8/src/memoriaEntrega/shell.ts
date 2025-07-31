@@ -1,7 +1,7 @@
 import { tablero } from "./model";
 import { iniciaPartida } from "./motor";
 import "./styles.css";
-import { createGrid } from "./ui";
+import { iniciarPartidaUi } from "./ui";
 
 const startGameButton = document.getElementById("start-game");
 
@@ -12,9 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     startGameButton.addEventListener("click", () => {
       iniciaPartida(tablero);
       if (parentDiv) {
-        createGrid(parentDiv, tablero.cartas);
+        iniciarPartidaUi(parentDiv, tablero.cartas);
+        startGameButton.disabled = true;
       }
-      console.log("start game");
     });
   }
 });

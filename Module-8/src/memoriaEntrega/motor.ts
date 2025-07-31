@@ -96,7 +96,7 @@ export const parejaNoEncontrada = (
   tablero.indiceCartaVolteadaA = undefined;
   tablero.indiceCartaVolteadaB = undefined;
   tablero.estadoPartida = "CeroCartasLevantadas";
-  updateElements(indiceA, indiceB);
+  tablero.intentos++;
 };
 
 /*
@@ -119,6 +119,7 @@ export const iniciaPartida = (tablero: Tablero): void => {
     card.estaVuelta = false;
   });
   tablero.estadoPartida = "CeroCartasLevantadas";
+  tablero.intentos = 0;
   tablero.indiceCartaVolteadaA = undefined;
   tablero.indiceCartaVolteadaB = undefined;
 };
