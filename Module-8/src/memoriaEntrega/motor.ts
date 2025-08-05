@@ -1,5 +1,4 @@
 import type { Carta, Tablero } from "./model";
-import { updateElements } from "./ui";
 
 /*
 En el motor nos va a hacer falta un método para barajar cartas
