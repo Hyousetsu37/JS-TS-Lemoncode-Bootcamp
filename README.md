@@ -9,3 +9,4 @@
 6. [Imports](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-6)
 7. [Testing](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-7)
 8. [Bucles y Arrays](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-8)
+9. [Algoritmos](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-9)
