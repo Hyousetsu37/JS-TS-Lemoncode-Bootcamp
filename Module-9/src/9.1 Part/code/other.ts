@@ -140,4 +140,4 @@ const calculaTicketFinal = (lineasTicket: LineaTicket[]): TicketFinal => {
 };
 
 const miTicketFinal = calculaTicketFinal(productos);
-console.log(miTicketFinal);
+// console.log(miTicketFinal);
