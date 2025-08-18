@@ -17,15 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
     askCardButton.addEventListener("click", askButtonHandler);
   }
   if (stayButton instanceof HTMLButtonElement) {
-    stayButton.addEventListener("click", stayButtonHandler);
+    stayButton?.addEventListener("click", stayButtonHandler);
   }
   if (resetButton instanceof HTMLButtonElement) {
-    resetButton.addEventListener("click", resetButtonHandler);
+    resetButton?.addEventListener("click", resetButtonHandler);
   }
   if (afterButton instanceof HTMLButtonElement) {
-    afterButton.addEventListener("click", afterButtonHandler);
+    afterButton?.addEventListener("click", afterButtonHandler);
   }
 
   // Pintamos el estado inicial del juego al cargar la pagina
-  renderGame(0);
+  renderGame();
 });

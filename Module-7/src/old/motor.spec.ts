@@ -13,36 +13,31 @@ describe("Testearemos la lógica que permite evaluar si el juego ha terminado, s
   it("Deberia devolver '¡ Lo has clavado! ¡Enhorabuena!' si el jugador se planta en 7.5", () => {
     const currentScore = 7.5;
     const winnerMessage = config.gameMessages.winner;
-    const result = evalGameStatus(currentScore);
-    expect(result).toBe(winnerMessage);
+    expect(evalGameStatus(currentScore)).toBe(winnerMessage);
   });
 
   it("Deberia devolver 'Casi casi...' si el jugador se planta en menos de 7.5 y mas o igual a 6", () => {
     const currentScore = 6.2;
     const almostMessage = config.gameMessages.almost;
-    const result = evalGameStatus(currentScore);
-    expect(result).toBe(almostMessage);
+    expect(evalGameStatus(currentScore)).toBe(almostMessage);
   });
 
   it("Deberia devolver 'Te ha entrado el canguelo eh?' si el jugador se planta en menos de 6 y mas o igual a 5", () => {
     const currentScore = 5.5;
     const scaredMessage = config.gameMessages.scared;
-    const result = evalGameStatus(currentScore);
-    expect(result).toBe(scaredMessage);
+    expect(evalGameStatus(currentScore)).toBe(scaredMessage);
   });
 
   it("Deberia devolver 'Has sido muy conservador' si el jugador se planta en menos de 5 ", () => {
     const currentScore = 4;
     const conservativeMessage = config.gameMessages.conservative;
-    const result = evalGameStatus(currentScore);
-    expect(result).toBe(conservativeMessage);
+    expect(evalGameStatus(currentScore)).toBe(conservativeMessage);
   });
 
   it("Deberia devolver 'Game Over' si el jugador se pasa de 7.5 puntos ", () => {
     const currentScore = 8;
     const gameOverMessage = config.gameMessages.gameOver;
-    const result = evalGameStatus(currentScore);
-    expect(result).toBe(gameOverMessage);
+    expect(evalGameStatus(currentScore)).toBe(gameOverMessage);
   });
 });
 
@@ -70,63 +65,54 @@ describe("Testearemos las funciones que generan los numeros de las cartas", () =
   it("Deberia devolver 1 si el numero generado aleatoreamente es 1", () => {
     const expectedNumber = 1;
     const randomNumber = 1;
-    const carta = dameCarta(randomNumber);
-    expect(carta).toBe(expectedNumber);
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
   });
 
   it("Deberia devolver 7 si el numero generado aleatoreamente es 7", () => {
     const expectedNumber = 7;
     const randomNumber = 7;
-    const carta = dameCarta(randomNumber);
-    expect(carta).toBe(expectedNumber);
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
   });
 
   it("Deberia devolver 10 si el numero generado aleatoreamente es 8", () => {
     const expectedNumber = 10;
     const randomNumber = 8;
-    const carta = dameCarta(randomNumber);
-    expect(carta).toBe(expectedNumber);
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
   });
 
   it("Deberia devolver 11 si el numero generado aleatoreamente es 9", () => {
     const expectedNumber = 11;
     const randomNumber = 9;
-    const carta = dameCarta(randomNumber);
-    expect(carta).toBe(expectedNumber);
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
   });
 
   it("Deberia devolver 12 si el numero generado aleatoreamente es 10", () => {
     const expectedNumber = 12;
     const randomNumber = 10;
-    const carta = dameCarta(randomNumber);
-    expect(carta).toBe(expectedNumber);
+    expect(dameCarta(randomNumber)).toBe(expectedNumber);
   });
 
   //En el caso de que el jugador haya obtenido una carta, debemos de haber creado una función que devuelva el valor de esa carta. Al igual que en el caso anterior, se van a realizar pruebas unitarias para comprobar que la función se comporta como se espera en diferentes situaciones.
   it("Deberia devolver 1 si la carta obtenida fue 1", () => {
     const generatedCard = 1;
     const expectedPoints = 1;
-    const cardPoints = getCardPoints(generatedCard);
-    expect(cardPoints).toBe(expectedPoints);
+    expect(getCardPoints(generatedCard)).toBe(expectedPoints);
   });
 
   it("Deberia devolver 4 si la carta obtenida fue 4", () => {
     const generatedCard = 4;
     const expectedPoints = 4;
-    const cardPoints = getCardPoints(generatedCard);
-    expect(cardPoints).toBe(expectedPoints);
+    expect(getCardPoints(generatedCard)).toBe(expectedPoints);
   });
 
   it("Deberia devolver 0.5 si la carta obtenida fue 10", () => {
     const generatedCard = 10;
     const expectedPoints = 0.5;
-    const cardPoints = getCardPoints(generatedCard);
-    expect(cardPoints).toBe(expectedPoints);
+    expect(getCardPoints(generatedCard)).toBe(expectedPoints);
   });
   it("Deberia devolver 0.5 si la carta obtenida fue 10", () => {
     const generatedCard = 11;
     const expectedPoints = 0.5;
-    const cardPoints = getCardPoints(generatedCard);
-    expect(cardPoints).toBe(expectedPoints);
+    expect(getCardPoints(generatedCard)).toBe(expectedPoints);
   });
 });

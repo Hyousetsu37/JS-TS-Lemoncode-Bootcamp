@@ -4,6 +4,7 @@ import {
   dameCarta,
   getRandomNumber,
   getCardPoints,
+  getImageUrl,
 } from "./motor";
 
 //Seleccionamos los elementos del DOM
@@ -17,107 +18,122 @@ export const afterButton = document.getElementById("que-habria-pasado");
 const resultDisplay = document.getElementById("result-display");
 const hubieraDisplay = document.getElementById("hubiera-display");
 
-//Renderizado de la UI
-
-export function renderGame() {
-  // Mostrar la puntuación
+const showScore = () => {
   if (scoreText) {
     scoreText.textContent = gameState.score.toString();
   }
+};
 
-  // Mostrar la carta
+const showCard = (imageUrl: string) => {
   if (displayImage instanceof HTMLImageElement) {
-    const cardKey = gameState.lastCard as keyof typeof config.imageUrls.cards; //Con esto le decimos a TypeScript que el numero de lastCard es un numero valido de config.imageUrls.cards, es decir una de las opciones de la interfaz cards creadas al inicio del documento y no un numero cualquiera
-    const imageUrl = config.imageUrls.cards[cardKey];
-    displayImage.src = imageUrl
-      ? `${config.imageUrls.front}${imageUrl}`
-      : config.imageUrls.back;
+    displayImage.src = imageUrl;
   }
+};
 
-  // Actualizar estado de los botones principales
+const changeDisabledAskAndStayButtonsState = (isGameOver: boolean) => {
   if (
     askCardButton instanceof HTMLButtonElement &&
     stayButton instanceof HTMLButtonElement
   ) {
-    askCardButton.disabled = gameState.isGameOver;
-    stayButton.disabled = gameState.isGameOver;
+    askCardButton.disabled = isGameOver;
+    stayButton.disabled = isGameOver;
   }
+};
 
-  // Mostrar mensaje de resultado si el juego ha terminado
+const showResultIfGameEnded = (gameEnded: boolean) => {
   if (resultDisplay) {
-    if (gameState.isGameOver) {
+    if (gameEnded) {
       resultDisplay.textContent = evalGameStatus(gameState.score);
       resultDisplay.style.display = "block";
     } else {
       resultDisplay.style.display = "none";
     }
   }
-
-  // Mostrar el botón "Qué habría pasado"
-  if (afterButton instanceof HTMLButtonElement) {
-    const showAfterButton = gameState.isGameOver && gameState.score < 7.5;
-    afterButton.style.display = showAfterButton ? "block" : "none";
-  }
-
-  // Limpiar el mensaje de "hubiera" si no es necesario que se vea
-  if (hubieraDisplay && !gameState.isGameOver) {
-    hubieraDisplay.style.display = "none";
-  }
-}
-//Handlers
-
-export const askButtonHandler = () => {
-  if (gameState.isGameOver) return;
-
-  const card = dameCarta(getRandomNumber());
-  const points = getCardPoints(card);
-
-  gameState.lastCard = card;
-  gameState.score += points;
-
-  if (gameState.score >= 7.5) {
-    gameState.isGameOver = true;
-  }
-  renderGame();
 };
 
+const showWhatIfButton = (gameEnded: boolean) => {
+  if (afterButton instanceof HTMLButtonElement) {
+    const showAfterButton = gameEnded && gameState.score < 7.5;
+    afterButton.style.display = showAfterButton ? "block" : "none";
+  }
+};
+const showWhatIfMessage = (maybeScore: number) => {
+  if (hubieraDisplay) {
+    hubieraDisplay.innerHTML = `Hubieras logrado este resultado: <span id="puntuacion-actual">${maybeScore}</span>`;
+    showHubieraDisplay(true);
+  }
+};
+const disableAfterButton = (shouldDisable: boolean) => {
+  if (afterButton instanceof HTMLButtonElement) {
+    afterButton.disabled = shouldDisable; // Deshabilitamos el boton despues de usarlo
+  }
+};
+
+const showHubieraDisplay = (shouldShow: boolean) => {
+  if (hubieraDisplay) {
+    hubieraDisplay.style.display = shouldShow ? "block" : "none";
+  }
+};
+const checkGameOver = () => {
+  if (gameState.score >= 7.5) {
+    showResultIfGameEnded(true);
+    showWhatIfButton(true);
+    changeDisabledAskAndStayButtonsState(true);
+  }
+};
+
+export const renderGame = (cardNumber: number) => {
+  checkGameOver();
+  // Mostrar la puntuación
+  const ImageUrl = getImageUrl(cardNumber);
+  showCard(ImageUrl);
+  showScore();
+
+  // Mostrar la carta
+};
+
+const sumPoints = (score: number) => {
+  return gameState.score + score;
+};
+const updateScore = (newScore: number) => {
+  gameState.score = newScore;
+};
+
+//Handlers
+export const askButtonHandler = () => {
+  const card = dameCarta(getRandomNumber());
+  const points = getCardPoints(card);
+  const newScore = sumPoints(points);
+  updateScore(newScore);
+  renderGame(card);
+};
 export const stayButtonHandler = () => {
-  if (gameState.isGameOver) return;
-  gameState.isGameOver = true;
-  renderGame();
+  showResultIfGameEnded(true);
+  showWhatIfButton(true);
+  changeDisabledAskAndStayButtonsState(true);
+  renderGame(0);
 };
 
 export const afterButtonHandler = () => {
-  if (!gameState.isGameOver) return;
-
-  const card = dameCarta(getRandomNumber());
+  const randomNumber = getRandomNumber();
+  const card = dameCarta(randomNumber);
   const points = getCardPoints(card);
   const maybeScore = gameState.score + points;
-
-  gameState.lastCard = card; // Mostramos la nueva carta
-
-  if (hubieraDisplay) {
-    hubieraDisplay.innerHTML = `Hubieras logrado este resultado: <span id="puntuacion-actual">${maybeScore}</span>`;
-    hubieraDisplay.style.display = "block";
-  }
-
-  if (afterButton instanceof HTMLButtonElement) {
-    afterButton.disabled = true; // Deshabilitamos el boton despues de usarlo
-  }
+  showWhatIfMessage(maybeScore);
+  disableAfterButton(true);
 
   // Volvemos a renderizar por si la imagen de la carta cambio
-  renderGame();
+  renderGame(card);
 };
 
 export const resetButtonHandler = () => {
-  gameState.score = 0;
-  gameState.isGameOver = false;
-  gameState.lastCard = 0; // Para que muestre el dorso
-
+  updateScore(0);
+  showResultIfGameEnded(false);
+  showWhatIfButton(false);
+  changeDisabledAskAndStayButtonsState(false);
   // Habilitar el botón "que habria pasado" de nuevo
-  if (afterButton instanceof HTMLButtonElement) {
-    afterButton.disabled = false;
-  }
+  disableAfterButton(false);
+  showHubieraDisplay(false);
 
-  renderGame();
+  renderGame(0);
 };
