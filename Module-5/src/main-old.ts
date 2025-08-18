@@ -7,8 +7,21 @@ interface ConfigObject {
 interface imageUrls {
   front: string;
   back: string;
+  cards: cards;
 }
 
+interface cards {
+  1: string;
+  2: string;
+  3: string;
+  4: string;
+  5: string;
+  6: string;
+  7: string;
+  10: string;
+  11: string;
+  12: string;
+}
 interface gameMessages {
   conservative: string;
   scared: string;
@@ -30,6 +43,18 @@ const config: ConfigObject = {
     front:
       "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/",
     back: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg",
+    cards: {
+      1: "1_as-copas.jpg",
+      2: "2_dos-copas.jpg",
+      3: "3_tres-copas.jpg",
+      4: "4_cuatro-copas.jpg",
+      5: "5_cinco-copas.jpg",
+      6: "6_seis-copas.jpg",
+      7: "7_siete-copas.jpg",
+      10: "10_sota-copas.jpg",
+      11: "11_caballo-copas.jpg",
+      12: "12_rey-copas.jpg",
+    },
   },
   gameMessages: {
     conservative: "Has sido muy conservador",
@@ -77,52 +102,24 @@ const evalGameStatus = (score: number): string => {
   return config.gameMessages.conservative;
 };
 
-const showScore = () => {
+//Renderizado de la UI
+
+function renderGame() {
+  // Mostrar la puntuación
   if (scoreText) {
     scoreText.textContent = gameState.score.toString();
   }
-};
 
-const getImageUrl = (cardNumber: number): string => {
-  switch (cardNumber) {
-    case 1:
-      return "1_as-copas.jpg";
-    case 2:
-      return "2_dos-copas.jpg";
-    case 3:
-      return "3_tres-copas.jpg";
-    case 4:
-      return "4_cuatro-copas.jpg";
-    case 5:
-      return "5_cinco-copas.jpg";
-    case 6:
-      return "6_seis-copas.jpg";
-    case 7:
-      return "7_siete-copas.jpg";
-    case 10:
-      return "10_sota-copas.jpg";
-    case 11:
-      return "11_caballo-copas.jpg";
-    case 12:
-      return "12_rey-copas.jpg";
-    default:
-      return "back.jpg";
-  }
-};
-
-const showCard = (imageUrl: string) => {
+  // Mostrar la carta
   if (displayImage instanceof HTMLImageElement) {
-    //   const cardKey = gameState.lastCard as keyof typeof config.imageUrls.cards; //Con esto le decimos a TypeScript que el numero de lastCard es un numero valido de config.imageUrls.cards, es decir una de las opciones de la interfaz cards creadas al inicio del documento y no un numero cualquiera
-    //   const imageUrl = config.imageUrls.cards[cardKey];
-    //   displayImage.src = imageUrl
-    //     ? `${config.imageUrls.front}${imageUrl}`
-    //     : config.imageUrls.back;
-    // }
-    displayImage.src = imageUrl ? imageUrl : config.imageUrls.back;
+    const cardKey = gameState.lastCard as keyof typeof config.imageUrls.cards; //Con esto le decimos a TypeScript que el numero de lastCard es un numero valido de config.imageUrls.cards, es decir una de las opciones de la interfaz cards creadas al inicio del documento y no un numero cualquiera
+    const imageUrl = config.imageUrls.cards[cardKey];
+    displayImage.src = imageUrl
+      ? `${config.imageUrls.front}${imageUrl}`
+      : config.imageUrls.back;
   }
-};
 
-const changeDisabledAskAndStayButtonsState = () => {
+  // Actualizar estado de los botones principales
   if (
     askCardButton instanceof HTMLButtonElement &&
     stayButton instanceof HTMLButtonElement
@@ -130,9 +127,8 @@ const changeDisabledAskAndStayButtonsState = () => {
     askCardButton.disabled = gameState.isGameOver;
     stayButton.disabled = gameState.isGameOver;
   }
-};
 
-const showResultIfGameEnded = () => {
+  // Mostrar mensaje de resultado si el juego ha terminado
   if (resultDisplay) {
     if (gameState.isGameOver) {
       resultDisplay.textContent = evalGameStatus(gameState.score);
@@ -141,46 +137,18 @@ const showResultIfGameEnded = () => {
       resultDisplay.style.display = "none";
     }
   }
-};
 
-const showWhatIfButton = () => {
+  // Mostrar el botón "Qué habría pasado"
   if (afterButton instanceof HTMLButtonElement) {
     const showAfterButton = gameState.isGameOver && gameState.score < 7.5;
     afterButton.style.display = showAfterButton ? "block" : "none";
   }
-};
-
-//Renderizado de la UI
-
-function renderGame(cardNumber: number) {
-  // Mostrar la puntuación
-  showScore();
-
-  // Mostrar la carta
-  const ImageUrl = `${config.imageUrls.front}${getImageUrl(cardNumber)}`;
-
-  showCard(ImageUrl);
-
-  // Actualizar estado de los botones principales
-  changeDisabledAskAndStayButtonsState();
-
-  // Mostrar mensaje de resultado si el juego ha terminado
-  showResultIfGameEnded();
-
-  // Mostrar el botón "Qué habría pasado"
-  showWhatIfButton();
 
   // Limpiar el mensaje de "hubiera" si no es necesario que se vea
   if (hubieraDisplay && !gameState.isGameOver) {
     hubieraDisplay.style.display = "none";
   }
 }
-
-const checkGameOver = () => {
-  if (gameState.score >= 7.5) {
-    gameState.isGameOver = true;
-  }
-};
 
 //Handlers
 
@@ -190,24 +158,19 @@ const askButtonHandler = () => {
   const card = dameCarta(getRandomNumber());
   const points = getCardPoints(card);
 
+  gameState.lastCard = card;
   gameState.score += points;
 
-  checkGameOver();
-
-  renderGame(card);
+  if (gameState.score >= 7.5) {
+    gameState.isGameOver = true;
+  }
+  renderGame();
 };
 
 const stayButtonHandler = () => {
   if (gameState.isGameOver) return;
   gameState.isGameOver = true;
-  renderGame(0);
-};
-
-const showWhatIfMessage = (maybeScore: number) => {
-  if (hubieraDisplay) {
-    hubieraDisplay.innerHTML = `Hubieras logrado este resultado: <span id="puntuacion-actual">${maybeScore}</span>`;
-    hubieraDisplay.style.display = "block";
-  }
+  renderGame();
 };
 
 const afterButtonHandler = () => {
@@ -216,26 +179,33 @@ const afterButtonHandler = () => {
   const card = dameCarta(getRandomNumber());
   const points = getCardPoints(card);
   const maybeScore = gameState.score + points;
-  showWhatIfMessage(maybeScore);
+
+  gameState.lastCard = card; // Mostramos la nueva carta
+
+  if (hubieraDisplay) {
+    hubieraDisplay.innerHTML = `Hubieras logrado este resultado: <span id="puntuacion-actual">${maybeScore}</span>`;
+    hubieraDisplay.style.display = "block";
+  }
 
   if (afterButton instanceof HTMLButtonElement) {
     afterButton.disabled = true; // Deshabilitamos el boton despues de usarlo
   }
 
   // Volvemos a renderizar por si la imagen de la carta cambio
-  renderGame(card);
+  renderGame();
 };
 
 const resetButtonHandler = () => {
   gameState.score = 0;
   gameState.isGameOver = false;
+  gameState.lastCard = 0; // Para que muestre el dorso
 
   // Habilitar el botón "que habria pasado" de nuevo
   if (afterButton instanceof HTMLButtonElement) {
     afterButton.disabled = false;
   }
 
-  renderGame(0);
+  renderGame();
 };
 
 //Inicializamos
@@ -255,5 +225,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Pintamos el estado inicial del juego al cargar la pagina
-  renderGame(0);
+  renderGame();
 });
