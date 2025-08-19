@@ -12,6 +12,23 @@ function round2Decimals(numero: number): number {
   return Number(numero.toFixed(2));
 }
 
+const calculateTotalPriceWithoutIvaProduct = (
+  priceWithoutIva: number,
+  percentageIva: number,
+  productQuantity: number
+): number => {
+  return round2Decimals(
+    priceWithoutIva * (1 + percentageIva) * productQuantity
+  );
+};
+
+const calculateTotalPriceWithIvaProduct = (
+  priceWithoutIva: number,
+  productQuantity: number
+): number => {
+  return round2Decimals(priceWithoutIva * productQuantity);
+};
+
 export const calculateTicketLine = (
   ticketLine: LineaTicket
 ): ResultadoLineaTicket => {
@@ -21,29 +38,46 @@ export const calculateTicketLine = (
   return {
     nombre: ticketLine.producto.nombre,
     cantidad: productQuantity,
-    precioSinIva: productPriceWithoutIva * productQuantity,
+    precioSinIva: calculateTotalPriceWithIvaProduct(
+      productPriceWithoutIva,
+      productQuantity
+    ),
     tipoIva: productIva,
-    precioConIva: round2Decimals(
-      productPriceWithoutIva * (1 + percentageIva[productIva]) * productQuantity
+    precioConIva: calculateTotalPriceWithoutIvaProduct(
+      productPriceWithoutIva,
+      percentageIva[productIva],
+      productQuantity
     ),
   };
 };
 
-const calculateTotalTicket = (
-  ticketResultArray: ResultadoLineaTicket[]
-): ResultadoTotalTicket => {
-  const totalWithoutIva = ticketResultArray.reduce((acc, ticketResult) => {
+const calculateTotalWithoutIva = (ticketArray: ResultadoLineaTicket[]) => {
+  return ticketArray.reduce((acc, ticketResult) => {
     return acc + ticketResult.precioSinIva;
   }, 0);
-  const totalWithIva = ticketResultArray.reduce((acc, ticketResult) => {
+};
+
+const calculateTotalWithIva = (ticketArray: ResultadoLineaTicket[]) => {
+  return ticketArray.reduce((acc, ticketResult) => {
     return acc + round2Decimals(ticketResult.precioConIva);
   }, 0);
-  const totalIva = ticketResultArray.reduce((acc, ticketResult) => {
+};
+
+const calculateTotalIva = (ticketArray: ResultadoLineaTicket[]) => {
+  return ticketArray.reduce((acc, ticketResult) => {
     return (
       acc +
       round2Decimals(ticketResult.precioConIva - ticketResult.precioSinIva)
     );
   }, 0);
+};
+
+const calculateTotalTicket = (
+  ticketResultArray: ResultadoLineaTicket[]
+): ResultadoTotalTicket => {
+  const totalWithoutIva = calculateTotalWithoutIva(ticketResultArray);
+  const totalWithIva = calculateTotalWithIva(ticketResultArray);
+  const totalIva = calculateTotalIva(ticketResultArray);
 
   return {
     totalConIva: totalWithIva,
@@ -63,15 +97,19 @@ const calculateTotalTicketLines = (
   );
 };
 
-const calculateByIvaType = (
-  ticketResultArray: ResultadoLineaTicket[]
-): TotalPorTipoIva[] => {
-  const totalByType = ticketResultArray.reduce((acc, ticketLine) => {
+const calculateTotalByIvaType = (ticketArray: ResultadoLineaTicket[]) => {
+  return ticketArray.reduce((acc, ticketLine) => {
     const { tipoIva, precioConIva, precioSinIva } = ticketLine;
     acc[tipoIva] =
       (acc[tipoIva] || 0) + round2Decimals(precioConIva - precioSinIva);
     return acc;
   }, {} as Record<TipoIva, number>);
+};
+
+const calculateByIvaType = (
+  ticketResultArray: ResultadoLineaTicket[]
+): TotalPorTipoIva[] => {
+  const totalByType = calculateTotalByIvaType(ticketResultArray);
 
   const finalResult: TotalPorTipoIva[] = Object.keys(totalByType).map(
     (ivaKey) => ({
