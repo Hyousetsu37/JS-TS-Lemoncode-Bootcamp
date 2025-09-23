@@ -1,6 +1,8 @@
-import { handleSubmit, submitButton } from "../../ui";
 import "./style.css";
+import { handleSubmit, submitButton } from "./ui";
 
 document.addEventListener("DOMContentLoaded", () => {
-  submitButton?.addEventListener("click", handleSubmit);
+  if (submitButton instanceof HTMLButtonElement) {
+    submitButton.addEventListener("click", handleSubmit);
+  }
 });
