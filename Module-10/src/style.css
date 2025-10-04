@@ -6,7 +6,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   /* background-color: #242424; */
-  background-color: black;
+  background-color: #1a202c;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -26,16 +26,32 @@ body {
 }
 
 .card {
-  background-color: #1a1a1a;
-  border: 1px solid whitesmoke;
   border-radius: 10px;
   min-width: 256px;
+  background-color: #2d3748;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+.card h3 {
+  color: #e2e8f0;
 }
 .character-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-block: 20px;
+}
+.character-container label {
+  color: #a0aec0;
 }
 
 .card-img {
@@ -44,8 +60,28 @@ body {
 
 #search-input {
   width: 50%;
-  height: 32px;
-  border-radius: 24px;
+  background-color: #2d3748;
+  border: 1px solid #4a5568;
+  color: #e2e8f0;
+  font-size: 1rem; /* 16px - Un tamaño estándar y accesible */
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-inline: 6px;
+}
+
+#search-input:focus {
+  outline: none;
+  border-color: #6b46c1; /* Color de acento */
+  box-shadow: 0 0 0 2px #5a38a3; /* Un brillo sutil */
+}
+
+#search-button {
+  background-color: #6b46c1;
+  color: white;
+  border: none;
+  font-size: 1rem; /* Mismo tamaño de fuente que el input */
+  padding: 0.75rem 1.5rem; /* Ajusta el padding para que se vea bien */
+  border-radius: 6px;
 }
 
 h1 {
