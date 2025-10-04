@@ -1,168 +1,63 @@
-# Módulo 8 - Laboratorio 8.1 Bucles
+# Módulo 10 - Laboratorio Módulo Asincronía
 
-El objetivo de estos ejercicios es que te familiarices con los bucles for y while, no implementes arrays methods, estos los veremos en el siguiente laboratorio.
+## Introducción
 
-### Introducción
+¿Os acordáis de unos comics que había cuando éramos pequeños que se llamaban Mortadelo y Filemón?
 
-Estamos desarrollando un software hospitalario, y el cliente nos pide poder realizar una serie se operaciones sobre una lista de pacientes.
+Bueno, los más viejunos seguro que sí 😊, pues hemos creado una API con los personajes de los comics. La podéis encontrar en el siguiente repositorio, en la carpeta 10-async/06-lab-asincronio.
 
-El set de datos inicial:
+Clonad el repositorio y navegad hasta la carpeta 10-async/06-lab-asincronio.
 
-```
-type Especialidad = "Medico de familia" | "Pediatra" | "Cardiólogo";
+Una vez dentro, ejecutad npm install para instalar las dependencias y npm start para arrancar el proyecto.
 
-interface Pacientes {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  sexo: string;
-  temperatura: number;
-  frecuenciaCardiaca: number;
-  especialidad: Especialidad;
-  edad: number;
-}
+En este proyecto, cómo hemos dicho, tenéis una API con los personajes de los comics de Mortadelo y Filemón. Esta API tiene un endpoint:
 
-const pacientes: Pacientes[] = [
-  {
-    id: 1,
-    nombre: "John",
-    apellidos: "Doe",
-    sexo: "Male",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 80,
-    especialidad: "Medico de familia",
-    edad: 44,
-  },
-  {
-    id: 2,
-    nombre: "Jane",
-    apellidos: "Doe",
-    sexo: "Female",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 70,
-    especialidad: "Medico de familia",
-    edad: 43,
-  },
-  {
-    id: 3,
-    nombre: "Junior",
-    apellidos: "Doe",
-    sexo: "Male",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 90,
-    especialidad: "Pediatra",
-    edad: 8,
-  },
-  {
-    id: 4,
-    nombre: "Mary",
-    apellidos: "Wien",
-    sexo: "Female",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 120,
-    especialidad: "Medico de familia",
-    edad: 20,
-  },
-  {
-    id: 5,
-    nombre: "Scarlett",
-    apellidos: "Somez",
-    sexo: "Female",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 110,
-    especialidad: "Cardiólogo",
-    edad: 30,
-  },
-  {
-    id: 6,
-    nombre: "Brian",
-    apellidos: "Kid",
-    sexo: "Male",
-    temperatura: 39.8,
-    frecuenciaCardiaca: 80,
-    especialidad: "Pediatra",
-    edad: 11,
-  },
-];
-```
+- http://localhost:3000/personajes: que devuelve un listado de personajes.
 
-## Apartados obligatorios
+<img src='./public/personajes.png' alt='Example image'>
 
-### Apartado 1
+La API tiene un parámetro nombre que permite filtrar los personajes por nombre. Por ejemplo, si queremos buscar los personajes que contengan la palabra bacterio en su nombre, podemos hacerlo de la siguiente manera:
 
-a) Queremos extraer la lista de paciente que están asignados a la especialidad de Pediatría
+- http://localhost:3000/personajes?nombre_like=bacterio
 
-Firma de la función:
+<img src='./public/filtrar.png' alt='Example image'>
+
+## Implementación
+
+Vamos a crear una aplicación que nos permita buscar personajes por su nombre. Para ello, vamos a crear un formulario con un campo de texto y un botón.
+
+<img src='./public/formulario-busqueda.png' alt='Example image'>
+
+Cuando se carga la página, se debe mostrar un listado con todos los personajes.
+
+<img src='./public/listado-personajes.png' alt='Example image'>
+
+Si el usuario introduce un nombre en el campo de texto y pulsa el botón de filtrar, se debe mostrar un listado con los personajes que contengan el nombre introducido. También se puede mostrar un trozo de texto, por ejemplo, personajes que contengan la palabra `morta` en su nombre.
+
+<img src='./public/filtrado-gif.gif' alt='Example image'>
+
+> Nota: Los estilos son libres, solo hemos mostrado un ejemplo.
+
+## Pistas
+
+- En la API JSON, en la entrada de personajes, hay un campo llamado imagen, en este campo está el nombre de la imagen que se debe mostrar para ese personaje, cuando lo quiera visualizar en el navegador acuérdate de añadir el prefijo http://localhost:3000/ para que se muestre correctamente, es decir:
+
+Para esta entrada:
 
 ```
-const obtenPacientesAsignadosAPediatria = (
-pacientes: Pacientes[]
-): Pacientes[] => {
-// Tu implementación aquí :)
-};
-b) Queremos extraer la lista de pacientes asignados a Pediatría y que tengan una edad menor de 10 años.
-
-const obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios = (
-pacientes: Pacientes[]
-): Pacientes[] => {
-// Tu implementación aquí :)
-};
+ {
+      "id": "1",
+      "nombre": "Mortadelo",
+      "apodo": "Mortadelo",
+      "especialidad": "Disfraces",
+      "habilidades": ["Camuflaje", "Imitaciones", "Huida rápida"],
+      "amigo": "Filemón",
+      "imagen": "mortadelo.webp"
+    },
 ```
 
-### Apartado 2
-
-Queremos activar el protocolo de urgencia si cualquier de los pacientes tiene un ritmo cardíaco superior a 100 pulsaciones por minuto y una temperatura corporal superior a 39 grados.
-
-Es decir, crear una función que devuelve true/false dependiendo si se da la condición, algo así como:
+Sería (suponiendo que está en una variable llamada personaje):
 
 ```
-const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
-let activarProctolo = false;
-
-// Tu implementación aquí :)
-
-return activarProctolo;
-};
-```
-
-### Apartado 3
-
-El pediatra no puede atender hoy a los pacientes, queremos reasignar los pacientes asignados a la especialidad de pediatría a la de medico de familia.
-
-```
-const reasignaPacientesAMedicoFamilia = (
-pacientes: Pacientes[]
-): Pacientes[] => {
-// Tu implementación aquí :)
-};
-```
-
-### Apartado 4
-
-Queremos saber si podemos mandar al Pediatra a casa (si no tiene pacientes asignados), comprobar si en la lista hay algún paciente asignado a pediatría
-
-```
-const HayPacientesDePediatria = (pacientes: Pacientes[]): boolean => {
-// Tu implementación aquí :)
-};
-```
-
-## Apartados opcionales
-
-### Apartado 5
-
-Queremos calcular el número total de pacientes que están asignados a la especialidad de Medico de familia, y lo que están asignados a Pediatría y a cardiología
-
-```
-interface NumeroPacientesPorEspecialidad {
-medicoDeFamilia: number;
-pediatria: number;
-cardiologia: number;
-}
-
-const cuentaPacientesPorEspecialidad = (
-pacientes: Pacientes[]
-): NumeroPacientesPorEspecialidad => {
-// Tu implementación aquí :)
-};
+const imagenUrl = `http://localhost:3000/${personaje.imagen}`;
 ```
