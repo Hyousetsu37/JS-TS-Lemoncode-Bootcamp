@@ -17,7 +17,7 @@ const createImg = (parent: HTMLElement, src: string, alt: string) => {
 };
 
 const createInfoLine = (parent: HTMLElement, tagName: string, info: string) => {
-  const infoLine = createDiv(parent, "");
+  const infoLine = createDiv(parent, "info-line");
   const tag = document.createElement("label");
   tag.innerText = tagName;
   tag.style = "font-weight: bold";

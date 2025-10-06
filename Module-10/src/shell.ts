@@ -1,52 +1,21 @@
-import type { Character } from "./model";
-import { recallAllCharacters, recallFilteredCharacters } from "./motor";
-import { createCardGrid } from "./ui";
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const characterSection = document.getElementById("character-container");
-  const searchButton = document.getElementById("search-button");
-  const searchInput = document.getElementById("search-input");
-
-  const retrieveValue = (): string => {
-    if (searchInput instanceof HTMLInputElement) {
-      return searchInput.value;
-    }
-    return "";
-  };
-
-  const handleSearch = async () => {
-    const searchValue = retrieveValue();
-    paintCards(recallFilteredCharacters, searchValue);
-  };
-
-  const handlePaintAll = async () => {
-    paintCards(recallAllCharacters);
-  };
-
-  const handleEnter = async (event: KeyboardEvent) => {
-    if (event.key === "Enter") {
-      if (retrieveValue() === "") {
-        handlePaintAll();
-      } else {
-        await handleSearch();
-      }
-    }
-  };
-
-  const paintCards = async (callFunc: Function, searchValue?: string) => {
-    if (characterSection instanceof HTMLElement) {
-      const info: Character[] = searchValue
-        ? await callFunc(searchValue)
-        : await callFunc();
-      characterSection.innerHTML = "";
-      createCardGrid(characterSection, info);
-    }
-  };
-
-  handlePaintAll();
-
-  if (searchButton instanceof HTMLButtonElement) {
-    searchButton.addEventListener("click", handleSearch);
-    searchInput?.addEventListener("keypress", handleEnter);
+// Función de ayuda para obtener y validar elementos del DOM de forma segura.
+const getValidatedElement = <T extends HTMLElement>(
+  id: string,
+  typeConstructor: new () => T
+): T => {
+  const element = document.getElementById(id);
+  if (!element || !(element instanceof typeConstructor)) {
+    throw new Error(`Couldn´t find the element with id ${id}`);
   }
+  return element as T;
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    // Call elements at the start
+    const characterGrid = getValidatedElement(
+      "character-container",
+      HTMLElement
+    );
+  } catch (error) {}
 });

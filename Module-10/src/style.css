@@ -58,6 +58,17 @@ body {
   height: 256px;
 }
 
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+.info-line {
+  text-align: start;
+}
+
 #search-input {
   width: 50%;
   background-color: #2d3748;
