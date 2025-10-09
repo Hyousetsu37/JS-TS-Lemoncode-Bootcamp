@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="stylesheet" href="./src/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Módulo 10</title>
+  </head>
+  <body>
+    <main>
+      <h1>Introduzca el IBAN</h1>
+      <div class="search-container">
+        <input type="text" id="search-input" />
+        <button id="search-button">Search</button>
+      </div>
+      <div class="info-container" id="info-container">
+        <p>Iban is Correctly Formed: <span id="is-correctly-formed"></span></p>
+        <p>Iban is Valid: <span id="is-valid"></span></p>
+        <p>Bank: <span id="bank-name"></span></p>
+        <p>Office code: <span id="office-code"></span></p>
+        <p>Control digit: <span id="control-digit"></span></p>
+        <p>Account Number: <span id="account-number"></span></p>
+      </div>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
