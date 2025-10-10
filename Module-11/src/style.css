@@ -28,6 +28,7 @@ body {
 .card {
   border-radius: 10px;
   min-width: 256px;
+  max-width: 300px;
   background-color: #2d3748;
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -44,7 +45,7 @@ body {
 .card h3 {
   color: #e2e8f0;
 }
-.character-container {
+#info-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -54,8 +55,9 @@ body {
   color: #a0aec0;
 }
 
-.card-img {
+.card img {
   height: 256px;
+  width: 80%;
 }
 
 .info-container {
@@ -70,7 +72,7 @@ body {
 }
 
 #search-input {
-  width: 65%;
+  width: 90%;
   background-color: #2d3748;
   border: 1px solid #4a5568;
   color: #e2e8f0;
@@ -78,6 +80,7 @@ body {
   padding: 0.75rem 1rem;
   border-radius: 6px;
   margin-inline: 6px;
+  margin-block: 12px;
 }
 
 #search-input:focus {
