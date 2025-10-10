@@ -10,3 +10,5 @@
 7. [Testing](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-7)
 8. [Bucles y Arrays](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-8)
 9. [Algoritmos](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-9)
+10. [Asincronía](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-10)
+11. [Expresiones Regulares](https://github.com/Hyousetsu37/JS-TS-Lemoncode-Bootcamp/tree/main/Module-11)
