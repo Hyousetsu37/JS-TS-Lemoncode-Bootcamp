@@ -5,6 +5,13 @@ export type ibanInformation = {
   accountNumber: string;
 };
 
+export type ibanResultInformation = {
+  bank: string;
+  officeCode: string;
+  controlDigit: string;
+  accountNumber: string;
+};
+
 export const bankList = {
   "2080": "Abanca Corporación Bancaria",
   "0061": "Banca March",
@@ -48,4 +55,4 @@ export const bankList = {
 };
 
 export const ibanRegEx: RegExp =
-  /^[A-Z]{2}(?<controlDigit>\d{2})(\s|-)?\d{4}(\s|-)?(?<bankCode>\d{4})(\s|-)?(?<officeCode>\d{2})(\s|-)?(?<accountNumber>\d{10})$/;
+  /^[A-Z]{2}(\d{2})(\s|-)?(?<bankCode>\d{4})(\s|-)?(?<officeCode>\d{4})(\s|-)?(?<controlDigit>\d{2})(\s|-)?(?<accountNumber>\d{10})$/;

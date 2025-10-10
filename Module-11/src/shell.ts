@@ -1,5 +1,6 @@
 import { ibanRegEx } from "./model";
 import { getIbanInfo, isCorrectlyFormed, isValidIban } from "./motor";
+import { displayIbanInfo } from "./ui";
 
 const ibanLists = [
   "ES21 1465 0100 72 2030876293",
@@ -9,15 +10,6 @@ const ibanLists = [
   "ES66 2100 0418 40 1234567891",
   "ES66-2100-0418-40-1234567891",
 ];
-
-ibanLists.forEach((iban: string) => {
-  console.log(
-    `${iban} ->`,
-    isCorrectlyFormed(iban, ibanRegEx),
-    isValidIban(iban),
-    getIbanInfo(iban, ibanRegEx)
-  );
-});
 
 const getValidatedElement = <T extends HTMLElement>(
   id: string,
@@ -29,3 +21,37 @@ const getValidatedElement = <T extends HTMLElement>(
   }
   return element as T;
 };
+
+const getIbanFromSearchbar = (inputField: HTMLInputElement): string => {
+  const searchValue = inputField.value.trim();
+  return searchValue;
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    const inputField = getValidatedElement("search-input", HTMLInputElement);
+    const searchButton = getValidatedElement(
+      "search-button",
+      HTMLButtonElement
+    );
+    const infoContainer = getValidatedElement("info-container", HTMLElement);
+
+    const processAndDisplay = () => {
+      const ibanValue = getIbanFromSearchbar(inputField);
+      const isFormed = isCorrectlyFormed(ibanValue, ibanRegEx);
+      const isValid = isValidIban(ibanValue);
+      const ibanInformation = getIbanInfo(ibanValue, ibanRegEx);
+
+      displayIbanInfo(infoContainer, ibanInformation, isFormed, isValid);
+    };
+
+    searchButton.addEventListener("click", processAndDisplay);
+    inputField.addEventListener("keyup", (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        processAndDisplay();
+      }
+    });
+  } catch (error) {
+    console.error("There was a problem while initializing", error);
+  }
+});
