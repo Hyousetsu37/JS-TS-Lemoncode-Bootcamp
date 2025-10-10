@@ -1,8 +1,8 @@
 import { electronicFormatIBAN, isValidIBAN } from "ibantools";
 import {
   bankList,
-  type ibanInformation,
-  type ibanResultInformation,
+  type IbanInformation,
+  type IbanResultInformation,
 } from "./model";
 
 export const isCorrectlyFormed = (
@@ -15,26 +15,19 @@ export const isCorrectlyFormed = (
 export const getIbanInfo = (
   iban: string,
   ibanFormat: RegExp
-): ibanResultInformation | undefined => {
+): IbanResultInformation | undefined => {
   const foundValues = ibanFormat.exec(iban);
-  if (foundValues && foundValues.groups) {
-    const { bankCode, officeCode, controlDigit, accountNumber } =
-      foundValues.groups as ibanInformation;
+  if (!foundValues?.groups) return undefined;
 
-    console.log(bankCode);
-    let bank =
-      bankCode in bankList
-        ? bankList[bankCode as keyof typeof bankList]
-        : "No bank found";
-    return { bank, officeCode, controlDigit, accountNumber };
-  }
-  return undefined;
+  const { bankCode, officeCode, controlDigit, accountNumber } =
+    foundValues.groups as IbanInformation;
+
+  const bankName = bankList[bankCode] ?? "No bank found";
+
+  return { bankName, officeCode, controlDigit, accountNumber };
 };
 
 export const isValidIban = (iban: string): boolean => {
   const elecIban = electronicFormatIBAN(iban);
-  if (elecIban) {
-    return isValidIBAN(elecIban);
-  }
-  return false;
+  return elecIban ? isValidIBAN(elecIban) : false;
 };

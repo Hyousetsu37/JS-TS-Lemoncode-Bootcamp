@@ -27,30 +27,31 @@ const getIbanFromSearchbar = (inputField: HTMLInputElement): string => {
   return searchValue;
 };
 
+const initializeApp = () => {
+  const inputField = getValidatedElement("search-input", HTMLInputElement);
+  const searchButton = getValidatedElement("search-button", HTMLButtonElement);
+  const infoContainer = getValidatedElement("info-container", HTMLElement);
+
+  const processAndDisplay = () => {
+    const ibanValue = getIbanFromSearchbar(inputField);
+    const isFormed = isCorrectlyFormed(ibanValue, ibanRegEx);
+    const isValid = isValidIban(ibanValue);
+    const ibanInformation = getIbanInfo(ibanValue, ibanRegEx);
+
+    displayIbanInfo(infoContainer, ibanInformation, isFormed, isValid);
+  };
+
+  searchButton.addEventListener("click", processAndDisplay);
+  inputField.addEventListener("keyup", (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      processAndDisplay();
+    }
+  });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   try {
-    const inputField = getValidatedElement("search-input", HTMLInputElement);
-    const searchButton = getValidatedElement(
-      "search-button",
-      HTMLButtonElement
-    );
-    const infoContainer = getValidatedElement("info-container", HTMLElement);
-
-    const processAndDisplay = () => {
-      const ibanValue = getIbanFromSearchbar(inputField);
-      const isFormed = isCorrectlyFormed(ibanValue, ibanRegEx);
-      const isValid = isValidIban(ibanValue);
-      const ibanInformation = getIbanInfo(ibanValue, ibanRegEx);
-
-      displayIbanInfo(infoContainer, ibanInformation, isFormed, isValid);
-    };
-
-    searchButton.addEventListener("click", processAndDisplay);
-    inputField.addEventListener("keyup", (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        processAndDisplay();
-      }
-    });
+    initializeApp();
   } catch (error) {
     console.error("There was a problem while initializing", error);
   }

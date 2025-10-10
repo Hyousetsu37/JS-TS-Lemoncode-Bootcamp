@@ -1,18 +1,18 @@
-export type ibanInformation = {
+export type IbanInformation = {
   bankCode: string;
   officeCode: string;
   controlDigit: string;
   accountNumber: string;
 };
 
-export type ibanResultInformation = {
-  bank: string;
+export type IbanResultInformation = {
+  bankName: string;
   officeCode: string;
   controlDigit: string;
   accountNumber: string;
 };
 
-export const bankList = {
+export const bankList: Record<string, string> = Object.freeze({
   "2080": "Abanca Corporación Bancaria",
   "0061": "Banca March",
   "0188": "Banco Alcalá",
@@ -52,7 +52,7 @@ export const bankList = {
   "0073": "Open Bank",
   "0108": "Société Générale",
   "2103": "Unicaja Banco",
-};
+});
 
 export const ibanRegEx: RegExp =
   /^[A-Z]{2}(\d{2})(\s|-)?(?<bankCode>\d{4})(\s|-)?(?<officeCode>\d{4})(\s|-)?(?<controlDigit>\d{2})(\s|-)?(?<accountNumber>\d{10})$/;

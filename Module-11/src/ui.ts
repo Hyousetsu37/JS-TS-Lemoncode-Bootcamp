@@ -1,6 +1,6 @@
-import type { ibanResultInformation } from "./model";
+import type { IbanResultInformation } from "./model";
 
-const createLine = (parent: HTMLElement, text: string) => {
+const appendTextLine = (parent: HTMLElement, text: string) => {
   const line = document.createElement("p");
   line.innerText = text;
   parent.appendChild(line);
@@ -8,19 +8,19 @@ const createLine = (parent: HTMLElement, text: string) => {
 
 export const displayIbanInfo = (
   parent: HTMLElement,
-  ibanInfo: ibanResultInformation | undefined,
+  ibanInfo: IbanResultInformation | undefined,
   isCorrectlyFormed: boolean,
   isValid: boolean
 ) => {
   parent.innerHTML = "";
+  appendTextLine(parent, `IBAN is correctly formed: ${isCorrectlyFormed}`);
+  appendTextLine(parent, `IBAN is valid: ${isValid}`);
   if (ibanInfo) {
-    createLine(parent, `IBAN is correctly formed: ${isCorrectlyFormed}`);
-    createLine(parent, `IBAN is valid: ${isValid}`);
-    createLine(parent, `Bank: ${ibanInfo.bank}`);
-    createLine(parent, `Office code: ${ibanInfo.officeCode}`);
-    createLine(parent, `Control digit: ${ibanInfo.controlDigit}`);
-    createLine(parent, `Account Number: ${ibanInfo.accountNumber}`);
+    appendTextLine(parent, `Bank: ${ibanInfo.bankName}`);
+    appendTextLine(parent, `Office code: ${ibanInfo.officeCode}`);
+    appendTextLine(parent, `Control digit: ${ibanInfo.controlDigit}`);
+    appendTextLine(parent, `Account Number: ${ibanInfo.accountNumber}`);
   } else {
-    createLine(parent, "There is no information to display");
+    appendTextLine(parent, "There is no information to display");
   }
 };
