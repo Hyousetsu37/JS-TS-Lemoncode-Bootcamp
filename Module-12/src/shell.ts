@@ -2,6 +2,7 @@ interface Reserva {
   tipoHabitacion: "standard" | "suite";
   pax: number;
   noches: number;
+  desayuno?: boolean;
 }
 
 interface Prices {
@@ -82,12 +83,6 @@ class TourOperator extends NormalClient {
   }
 }
 
-const op = new TourOperator(reservas);
-console.log(op.calculateTotals());
-
-const nm = new NormalClient(reservas);
-console.log(nm.calculateTotals());
-
 //-----------------------------------------------------------------------------------
 //Base class
 class BaseBooking {
@@ -139,7 +134,80 @@ class refactoredTourOperator extends BaseBooking {
   }
 }
 
+const reservasConDesayuno: Reserva[] = [
+  {
+    tipoHabitacion: "standard",
+    desayuno: false,
+    pax: 1,
+    noches: 3,
+  },
+  {
+    tipoHabitacion: "standard",
+    desayuno: false,
+    pax: 1,
+    noches: 4,
+  },
+  {
+    tipoHabitacion: "suite",
+    desayuno: true,
+    pax: 2,
+    noches: 1,
+  },
+];
+
+//-------------------- Additional
+class refactoredNormalClientWithBreakfast extends BaseBooking {
+  constructor(bookingList: Reserva[], priceList: Prices) {
+    super(bookingList, priceList);
+  }
+  calculateSubtotal(priceList: Prices): number {
+    const subtotal = this.bookingList.reduce((acc, booking) => {
+      const basePrice =
+        priceList[booking.tipoHabitacion as keyof typeof priceList] || 0;
+      const extraPerGuest = booking.pax * 40 - 40;
+      const breakfastCost = booking.desayuno ? 15 : 0;
+      return acc + (basePrice + extraPerGuest) * booking.noches + breakfastCost;
+    }, 0);
+    return subtotal;
+  }
+}
+
+class refactoredTourOperatorWithBreakfast extends BaseBooking {
+  constructor(bookingList: Reserva[], priceList: Prices) {
+    super(bookingList, priceList);
+  }
+  calculateSubtotal(priceList: Prices): number {
+    const subtotalWithoutDiscount = this.bookingList.reduce((acc, booking) => {
+      const basePrice =
+        priceList[booking.tipoHabitacion as keyof typeof priceList] || 0;
+      const extraPerGuest = booking.pax * 40 - 40;
+      const breakfastCost = booking.desayuno ? 15 : 0;
+      return acc + (basePrice + extraPerGuest) * booking.noches + breakfastCost;
+    }, 0);
+    return subtotalWithoutDiscount * 0.85;
+  }
+}
+
+//-------------------- Showing prices
+
+//Normal
+const nm = new NormalClient(reservas);
+console.log("Normal price", nm.calculateTotals());
 const newNM = new refactoredNormalClient(reservas, normalPrices);
-console.log(newNM.calculateTotals());
+console.log("Refactored normal", newNM.calculateTotals());
+const newNMBf = new refactoredNormalClientWithBreakfast(
+  reservasConDesayuno,
+  normalPrices
+);
+console.log("Refactored Normal with breakfast", newNMBf.calculateTotals());
+
+//Tour
+const op = new TourOperator(reservas);
+console.log("Tour price", op.calculateTotals());
 const newOP = new refactoredTourOperator(reservas, tourPrices);
-console.log(newOP.calculateTotals());
+console.log("Refactored  tour", newOP.calculateTotals());
+const newOPBf = new refactoredTourOperatorWithBreakfast(
+  reservasConDesayuno,
+  tourPrices
+);
+console.log("Refactored Tour with breakfast", newOPBf.calculateTotals());
