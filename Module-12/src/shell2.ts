@@ -4,11 +4,6 @@ interface Reserva {
   noches: number;
 }
 
-interface Prices {
-  standard?: number;
-  suit?: number;
-}
-
 const reservas: Reserva[] = [
   {
     tipoHabitacion: "standard",
@@ -26,11 +21,6 @@ const reservas: Reserva[] = [
     noches: 1,
   },
 ];
-
-const normalPrices: Prices = {
-  standard: 100,
-  suit: 150,
-};
 
 class NormalClient {
   reserveList: Reserva[];
@@ -60,12 +50,12 @@ class NormalClient {
 }
 
 class TourOperator extends NormalClient {
-  discount: number;
+  _subtotal: number;
+  _total: number;
   constructor(reserveList: Reserva[]) {
     super(reserveList);
     this._subtotal = 0;
     this._total = 0;
-    this.discount = 0.15;
   }
 }
 

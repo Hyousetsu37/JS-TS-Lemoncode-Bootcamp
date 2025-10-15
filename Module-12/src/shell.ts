@@ -4,6 +4,11 @@ interface Reserva {
   noches: number;
 }
 
+interface Prices {
+  standard?: number;
+  suite?: number;
+}
+
 const reservas: Reserva[] = [
   {
     tipoHabitacion: "standard",
@@ -22,43 +27,119 @@ const reservas: Reserva[] = [
   },
 ];
 
+const normalPrices: Prices = {
+  standard: 100,
+  suite: 150,
+};
+
+const tourPrices: Prices = {
+  standard: 100,
+  suite: 100,
+};
+
 class NormalClient {
-  reserveList: Reserva[];
-  _subtotal: number;
-  _total: number;
-  constructor(reserveList: Reserva[]) {
-    this.reserveList = reserveList;
-    this._subtotal = 0;
-    this._total = 0;
-
-    this._total = this.subtotal * (1 + 0.21);
+  bookingList: Reserva[];
+  constructor(bookingList: Reserva[]) {
+    this.bookingList = bookingList;
   }
 
-  calculateValues() {
-    this.reserveList.forEach((listedElement) => {
-      this._subtotal += listedElement.tipoHabitacion === "standard" ? 100 : 150;
-      this._subtotal += listedElement.pax > 1 ? 40 : 0;
-    });
+  calculateRoomBasePrice(roomType: string): number {
+    return roomType === "standard" ? 100 : 150;
   }
 
-  public get subtotal(): number {
-    return this._subtotal;
+  calculateRoomPricePerNight(bookingInfo: Reserva): number {
+    let bookingPrice = 0;
+    bookingPrice += this.calculateRoomBasePrice(bookingInfo.tipoHabitacion);
+    bookingPrice += bookingInfo.pax * 40 - 40;
+    return bookingPrice;
   }
-  public get total(): number {
-    return this._total;
+
+  public calculateTotals() {
+    const subtotal = this.bookingList.reduce(
+      (acc, booking) =>
+        acc + this.calculateRoomPricePerNight(booking) * booking.noches,
+      0
+    );
+    const total = subtotal * 1.21;
+    return { subtotal, total };
   }
 }
 
 class TourOperator extends NormalClient {
-  _subtotal: number;
-  _total: number;
-  constructor(reserveList: Reserva[]) {
-    super(reserveList);
-    this._subtotal = 0;
-    this._total = 0;
+  calculateRoomBasePrice(): number {
+    return 100;
+  }
+  public calculateTotals() {
+    const subtotalWithoutDiscount = this.bookingList.reduce(
+      (acc, booking) =>
+        acc + this.calculateRoomPricePerNight(booking) * booking.noches,
+      0
+    );
+
+    const subtotal = subtotalWithoutDiscount * 0.85;
+    const total = subtotal * 1.21;
+    return { subtotal, total };
   }
 }
 
-const reservasResult = new NormalClient(reservas);
-console.log(reservasResult.subtotal);
-console.log(reservasResult.total);
+const op = new TourOperator(reservas);
+console.log(op.calculateTotals());
+
+const nm = new NormalClient(reservas);
+console.log(nm.calculateTotals());
+
+//-----------------------------------------------------------------------------------
+//Base class
+class BaseBooking {
+  bookingList: Reserva[];
+  priceList: Prices;
+  constructor(bookingList: Reserva[], priceList: Prices) {
+    this.bookingList = bookingList;
+    this.priceList = priceList;
+  }
+
+  calculateSubtotal(priceList: Prices): number {
+    return 0;
+  }
+
+  public calculateTotals() {
+    const subtotal = this.calculateSubtotal(this.priceList);
+    const total = subtotal * 1.21;
+    return { subtotal, total };
+  }
+}
+
+class refactoredNormalClient extends BaseBooking {
+  constructor(bookingList: Reserva[], priceList: Prices) {
+    super(bookingList, priceList);
+  }
+  calculateSubtotal(priceList: Prices): number {
+    const subtotal = this.bookingList.reduce((acc, booking) => {
+      const basePrice =
+        priceList[booking.tipoHabitacion as keyof typeof priceList] || 0;
+      const extraPerGuest = booking.pax * 40 - 40;
+      return acc + (basePrice + extraPerGuest) * booking.noches;
+    }, 0);
+    return subtotal;
+  }
+}
+
+class refactoredTourOperator extends BaseBooking {
+  constructor(bookingList: Reserva[], priceList: Prices) {
+    super(bookingList, priceList);
+  }
+  calculateSubtotal(priceList: Prices): number {
+    const subtotalWithoutDiscount = this.bookingList.reduce((acc, booking) => {
+      const basePrice =
+        priceList[booking.tipoHabitacion as keyof typeof priceList] || 0;
+      const extraPerGuest = booking.pax * 40 - 40;
+      return acc + (basePrice + extraPerGuest) * booking.noches;
+    }, 0);
+    return subtotalWithoutDiscount * 0.85;
+  }
+}
+
+const newNM = new refactoredNormalClient(reservas, normalPrices);
+console.log(newNM.calculateTotals());
+const newOP = new refactoredTourOperator(reservas, tourPrices);
+console.log(newOP.calculateTotals());
