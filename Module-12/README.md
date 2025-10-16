@@ -1,168 +1,107 @@
-# Módulo 8 - Laboratorio 8.1 Bucles
+# Bootcamp JS 2 - Laboratorio Módulo 12 - Clases
 
-El objetivo de estos ejercicios es que te familiarices con los bucles for y while, no implementes arrays methods, estos los veremos en el siguiente laboratorio.
+## Laboratorio Módulo 12 - Clases
 
-### Introducción
+Imaginemos que tenemos una web de reservas de hotel. Cuando un cliente realiza sus reservas indica los siguientes datos:
 
-Estamos desarrollando un software hospitalario, y el cliente nos pide poder realizar una serie se operaciones sobre una lista de pacientes.
+Qué habitaciones quiere (hay de varios tipos).
+Para cada habitación, cuántas personas la van a ocupar.
+Además, debemos saber que el tipo de IVA que aplica a las habitaciones de hotel es del 21%.
 
-El set de datos inicial:
+Un ejemplo de datos de nuestro hotel sería el siguiente:
 
 ```
-type Especialidad = "Medico de familia" | "Pediatra" | "Cardiólogo";
-
-interface Pacientes {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  sexo: string;
-  temperatura: number;
-  frecuenciaCardiaca: number;
-  especialidad: Especialidad;
-  edad: number;
+interface Reserva {
+tipoHabitacion: "standard" | "suite";
+pax: number;
+noches: number;
 }
 
-const pacientes: Pacientes[] = [
-  {
-    id: 1,
-    nombre: "John",
-    apellidos: "Doe",
-    sexo: "Male",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 80,
-    especialidad: "Medico de familia",
-    edad: 44,
-  },
-  {
-    id: 2,
-    nombre: "Jane",
-    apellidos: "Doe",
-    sexo: "Female",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 70,
-    especialidad: "Medico de familia",
-    edad: 43,
-  },
-  {
-    id: 3,
-    nombre: "Junior",
-    apellidos: "Doe",
-    sexo: "Male",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 90,
-    especialidad: "Pediatra",
-    edad: 8,
-  },
-  {
-    id: 4,
-    nombre: "Mary",
-    apellidos: "Wien",
-    sexo: "Female",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 120,
-    especialidad: "Medico de familia",
-    edad: 20,
-  },
-  {
-    id: 5,
-    nombre: "Scarlett",
-    apellidos: "Somez",
-    sexo: "Female",
-    temperatura: 36.8,
-    frecuenciaCardiaca: 110,
-    especialidad: "Cardiólogo",
-    edad: 30,
-  },
-  {
-    id: 6,
-    nombre: "Brian",
-    apellidos: "Kid",
-    sexo: "Male",
-    temperatura: 39.8,
-    frecuenciaCardiaca: 80,
-    especialidad: "Pediatra",
-    edad: 11,
-  },
+const reservas = [
+{
+tipoHabitacion: "standard",
+pax: 1,
+noches: 3,
+},
+{
+tipoHabitacion: "standard",
+pax: 1,
+noches: 4,
+},
+{
+tipoHabitacion: "suite",
+pax: 2,
+noches: 1,
+},
 ];
 ```
 
-## Apartados obligatorios
+Nuestro objeto es calcular el subtotal (precio sin IVA) y el total de las reservas que ha hecho un cliente.
 
-### Apartado 1
+## Caso 1
 
-a) Queremos extraer la lista de paciente que están asignados a la especialidad de Pediatría
+En el caso de un cliente particular:
 
-Firma de la función:
+Habitación / día (IVA No Incluido):
+Standard: 100 €.
+Suite: 150 €.
+Cargos adicionales:
+Por cada persona adicional sumarle 40 € al precio de cada noche.
+IVA sumarle un 21% al total.
+Crear una clase que reciba la lista de reservas y calcule el subtotal y el total teniendo en cuenta los anteriores requisitos.
 
-```
-const obtenPacientesAsignadosAPediatria = (
-pacientes: Pacientes[]
-): Pacientes[] => {
-// Tu implementación aquí :)
-};
-b) Queremos extraer la lista de pacientes asignados a Pediatría y que tengan una edad menor de 10 años.
+## Caso 2
 
-const obtenPacientesAsignadosAPediatriaYMenorDeDiezAnios = (
-pacientes: Pacientes[]
-): Pacientes[] => {
-// Tu implementación aquí :)
-};
-```
+Cubrimos el caso de un tour operador, al reservar grandes volúmenes, le damos las siguientes condiciones especiales:
 
-### Apartado 2
+Todas las habitaciones tienen el mismo precio (100 €).
+Adicionalmente se le aplica un 15 % de descuento a los servicios contratados.
+Crear una clase que herede de la primera que cubra el caso del cálculo de totales y subtotales para el tour operador.
 
-Queremos activar el protocolo de urgencia si cualquier de los pacientes tiene un ritmo cardíaco superior a 100 pulsaciones por minuto y una temperatura corporal superior a 39 grados.
+## Desafío
 
-Es decir, crear una función que devuelve true/false dependiendo si se da la condición, algo así como:
+Crear una clase base con la funcionalidad común, y dos clases hijas una con el caso para cliente particular y otra para tour operador.
 
-```
-const activarProtocoloUrgencia = (pacientes: Pacientes[]): boolean => {
-let activarProctolo = false;
+En el constructor de la clase base, introduce la lista de precios de habitaciones, ¿Qué tendrás que hacer para que en el hijo puedas inicializar la clase?
 
-// Tu implementación aquí :)
+Algunas pistas:
 
-return activarProctolo;
-};
-```
+https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/super
 
-### Apartado 3
+## Ejercicio adicional
 
-El pediatra no puede atender hoy a los pacientes, queremos reasignar los pacientes asignados a la especialidad de pediatría a la de medico de familia.
+Añadimos un campo a cada reserva en el que indicamos si el desayuno está incluido o no: en caso de estar incluido supone un cargo adicional de 15 € por persona y noche.
+
+Calcular totales y subtotales tanto para tarifa particular como tour operador.
+
+Una muestra de datos con los que trabajar:
 
 ```
-const reasignaPacientesAMedicoFamilia = (
-pacientes: Pacientes[]
-): Pacientes[] => {
-// Tu implementación aquí :)
-};
-```
-
-### Apartado 4
-
-Queremos saber si podemos mandar al Pediatra a casa (si no tiene pacientes asignados), comprobar si en la lista hay algún paciente asignado a pediatría
-
-```
-const HayPacientesDePediatria = (pacientes: Pacientes[]): boolean => {
-// Tu implementación aquí :)
-};
-```
-
-## Apartados opcionales
-
-### Apartado 5
-
-Queremos calcular el número total de pacientes que están asignados a la especialidad de Medico de familia, y lo que están asignados a Pediatría y a cardiología
-
-```
-interface NumeroPacientesPorEspecialidad {
-medicoDeFamilia: number;
-pediatria: number;
-cardiologia: number;
+interface Reserva {
+tipoHabitacion: "standard" | "suite";
+desayuno: boolean;
+pax: number;
+noches: number;
 }
 
-const cuentaPacientesPorEspecialidad = (
-pacientes: Pacientes[]
-): NumeroPacientesPorEspecialidad => {
-// Tu implementación aquí :)
-};
+const reservas = [
+{
+tipoHabitacion: "standard",
+desayuno: false,
+pax: 1,
+noches: 3,
+},
+{
+tipoHabitacion: "standard",
+desayuno: false,
+pax: 1,
+noches: 4,
+},
+{
+tipoHabitacion: "suite",
+desayuno: true,
+pax: 2,
+noches: 1,
+},
+];
 ```
