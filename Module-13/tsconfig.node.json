@@ -21,7 +21,8 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "composite": true
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"], "@page/*": ["./src/pages/*"] }
   },
   "include": ["vite.config.ts"]
 }
