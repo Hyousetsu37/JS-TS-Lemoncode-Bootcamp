@@ -4,6 +4,7 @@ import { LoginFormComponent } from "./components/login-form.component";
 import type { Credentials } from "./login.vm";
 import { mapCredentialsFromVmToAPI } from "./login.mapper";
 import { appRoutes } from "@/core/router";
+import styles from "./login.page.module.css";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,9 +18,18 @@ export const LoginPage: React.FC = () => {
     }
   };
   return (
-    <div>
-      <h1>Acceso</h1>
-      <LoginFormComponent onLogin={handleSubmit} />
-    </div>
+    <>
+      <header className={styles.header}>
+        <img
+          className={styles.logo}
+          src="assets/logo_header.svg"
+          alt="Bank logo"
+        />
+      </header>
+      <div className={styles["bg-img"]}></div>
+      <div>
+        <LoginFormComponent onLogin={handleSubmit} />
+      </div>
+    </>
   );
 };
