@@ -6,6 +6,7 @@ import {
 } from "@/pages/login/login.vm";
 import { useState } from "react";
 import { validateForm, type ValidationResult } from "../login.validation";
+import styles from "./login-form.component.module.css";
 
 interface Props {
   onLogin: (credentials: Credentials) => void;
@@ -36,28 +37,32 @@ export const LoginFormComponent: React.FC<Props> = (props) => {
     }
   };
   return (
-    <form action="" onSubmit={handleSubmit}>
+    <form action="" className={styles.form} onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="username">Usuario</label>
         <input
           type="text"
           id="username"
           name="user"
           onChange={handleFieldChange}
+          placeholder="Usuario"
+          className={error.user ? styles.inputError : ""}
         />
-        {error.user && <p className="error">{error.user}</p>}
+        {error.user && <p className={styles.error}>{error.user}</p>}
       </div>
       <div>
-        <label htmlFor="password">Contraseña</label>
         <input
           type="password"
           id="password"
           name="password"
           onChange={handleFieldChange}
+          placeholder="Contraseña"
+          className={error.password ? styles.inputError : ""}
         />
-        {error.password && <p className="error">{error.password}</p>}
+        {error.password && <p className={styles.error}>{error.password}</p>}
       </div>
-      <button type="submit">Acceder</button>
+      <button type="submit" className={styles.btnSend}>
+        Acceder
+      </button>
     </form>
   );
 };

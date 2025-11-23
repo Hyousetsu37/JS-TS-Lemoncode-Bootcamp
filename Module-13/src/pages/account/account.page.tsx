@@ -1,12 +1,12 @@
-import { TempNav } from "@/components/temp-nav.component";
+import { AppLayout } from "@/layouts";
 import type React from "react";
 
 export const AccountPage: React.FC = () => {
   return (
     <>
-      Account Page
-      <br />
-      <TempNav />
+      <AppLayout>
+        <div>Create / Edit account</div>
+      </AppLayout>
     </>
   );
 };

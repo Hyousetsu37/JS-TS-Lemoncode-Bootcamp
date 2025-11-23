@@ -160,6 +160,8 @@ Start of styles
   --secondary_color: #232c3b;
   --primary_color_darker: #1d9ea8;
   --element-border-color: #e5e5e5;
+  --light_text: #fff;
+  --error-color: #f32e3b;
   --element-radius: 10px;
 }
 

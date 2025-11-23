@@ -1,0 +1,25 @@
+.error {
+  font-size: 0.9rem;
+  color: var(--error-color);
+}
+.input-error {
+  box-shadow: unset;
+  border-color: var(--error-color);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.btn-send {
+  width: 25%;
+}
+
+@media screen and (max-width: 500px) {
+  .btn-send {
+    width: 100%;
+  }
+}
