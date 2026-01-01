@@ -8,7 +8,7 @@ import { ProfileProvider } from "./core/profile";
 export const App: React.FC = () => {
   return (
     <ProfileProvider>
-      <Router />;
+      <Router />
     </ProfileProvider>
   );
 };
