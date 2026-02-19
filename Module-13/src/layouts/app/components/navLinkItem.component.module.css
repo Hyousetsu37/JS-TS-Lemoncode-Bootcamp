@@ -1,0 +1,5 @@
+.active {
+  border-bottom: 5px solid var(--primary_color);
+  padding-bottom: 5px;
+  margin-bottom: -10px;
+}
