@@ -4,17 +4,11 @@ import style from "./account-list-item.component.module.css";
 import { generatePath, Link } from "react-router-dom";
 import { appRoutes } from "@/core/router";
 import { AccountAction, useAccountActions } from "../hooks/use-account-actions";
+import { formatCurrency } from "@/core/helpers/formatcurrency";
 
 interface AccountListItemProps {
   accountItem: AccountVm;
 }
-
-const formatCurrency = (value: number): string => {
-  return new Intl.NumberFormat("es-ES", {
-    style: "currency",
-    currency: "EUR",
-  }).format(value);
-};
 
 export const AccountListItemComponent: React.FC<AccountListItemProps> = ({
   accountItem,
