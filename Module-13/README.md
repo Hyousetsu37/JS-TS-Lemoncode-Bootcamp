@@ -1,73 +1,41 @@
-# React + TypeScript + Vite
+# React Module 13: Banking Portal Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A banking portal dashboard that allows users to view their account balances and make wire transfers. This project was developed as part of the JS-TS Bootcamp by Lemoncode to practice and apply general React theory.
 
-Currently, two official plugins are available:
+## 🎯 Learning Focus
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This module emphasizes building scalable React applications by focusing on:
 
-## React Compiler
+- **React Router:** Handling navigation between different views within the dashboard.
+- **React Context:** Managing global state efficiently across the application.
+- **Custom Hooks:** Encapsulating and reusing stateful business logic.
+- **Componentization:** Breaking down the UI into modular, reusable, and maintainable pieces.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Prerequisites
 
-## Expanding the ESLint configuration
+Make sure you have [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/) installed on your machine.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Running the Project
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+You will need two separate terminal windows to run this project.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 1. Start the Backend Server
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Open your first terminal, navigate to the `server` directory, install the dependencies, and start the server:
+
+```bash
+cd server
+pnpm install
+pnpm run start
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Start the Frontend Application
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Open a new, separate terminal, ensure you are in the main project directory, install the dependencies, and run the app:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+pnpm install
+pnpm run dev
+```
+
+Once both are running, your React application will be fully functional and able to fetch data from the local server!
