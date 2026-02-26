@@ -1,6 +1,8 @@
-import type { Credentials } from "./login.vm";
+import type { Credentials, CredentialsFormErrors } from "./login.vm";
 import { describe, expect, it } from "vitest";
-import { validateForm, type ValidationResult } from "./login.validation";
+import { validateForm } from "./login.validation";
+import { REQUIRED_FIELD_MESSAGE } from "@/common/validations/validation.const";
+import type { FormValidationResult } from "@/common/validations/validation.model";
 
 describe("login.validation specs", () => {
   it("Should return a validation succeded = true when both fields have been filled", () => {
@@ -10,11 +12,12 @@ describe("login.validation specs", () => {
       password: "testPassword",
     };
     //Act
-    const result: ValidationResult = validateForm(testCredentials);
+    const result: FormValidationResult<CredentialsFormErrors> =
+      validateForm(testCredentials);
     //Assert
     expect(result.succeeded).toBeTruthy();
-    expect(result.error.user).toEqual("");
-    expect(result.error.password).toEqual("");
+    expect(result.errors.user).toEqual("");
+    expect(result.errors.password).toEqual("");
   });
   it("Should return a validation succeded = false whenthe username has not been filled", () => {
     //Arrange
@@ -23,11 +26,12 @@ describe("login.validation specs", () => {
       password: "testPassword",
     };
     //Act
-    const result: ValidationResult = validateForm(testCredentials);
+    const result: FormValidationResult<CredentialsFormErrors> =
+      validateForm(testCredentials);
     //Assert
     expect(result.succeeded).toBeFalsy();
-    expect(result.error.user).toEqual("Debe llenar el campo usuario");
-    expect(result.error.password).toEqual("");
+    expect(result.errors.user).toEqual(REQUIRED_FIELD_MESSAGE);
+    expect(result.errors.password).toEqual("");
   });
   it("Should return a validation succeded = false when the password has not been filled", () => {
     //Arrange
@@ -36,11 +40,12 @@ describe("login.validation specs", () => {
       password: "",
     };
     //Act
-    const result: ValidationResult = validateForm(testCredentials);
+    const result: FormValidationResult<CredentialsFormErrors> =
+      validateForm(testCredentials);
     //Assert
     expect(result.succeeded).toBeFalsy();
-    expect(result.error.user).toEqual("");
-    expect(result.error.password).toEqual("Debe llenar el campo password");
+    expect(result.errors.user).toEqual("");
+    expect(result.errors.password).toEqual(REQUIRED_FIELD_MESSAGE);
   });
   it("Should return a validation succeded = false both fields have not been filled", () => {
     //Arrange
@@ -49,10 +54,11 @@ describe("login.validation specs", () => {
       password: "",
     };
     //Act
-    const result: ValidationResult = validateForm(testCredentials);
+    const result: FormValidationResult<CredentialsFormErrors> =
+      validateForm(testCredentials);
     //Assert
     expect(result.succeeded).toBeFalsy();
-    expect(result.error.user).toEqual("Debe llenar el campo usuario");
-    expect(result.error.password).toEqual("Debe llenar el campo password");
+    expect(result.errors.user).toEqual(REQUIRED_FIELD_MESSAGE);
+    expect(result.errors.password).toEqual(REQUIRED_FIELD_MESSAGE);
   });
 });

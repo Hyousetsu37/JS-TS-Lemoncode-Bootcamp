@@ -5,6 +5,7 @@ import {
   isStringValueInformed,
   isValidEmail,
   isValidIban,
+  isValueNotNullOrUndefined,
 } from "./plain.validation";
 
 describe("plain.validation", () => {
@@ -83,19 +84,46 @@ describe("plain.validation", () => {
     });
   });
   describe("isStringValueInformed", () => {
-    it("Should return true if the string is filled", () => {
+    it("Should return true if the value is not empty", () => {
       //Arrange
-      const field = "someemail@gmail.com";
+      const value = "something";
       //Act
-      const result = isStringValueInformed(field);
+      const result = isStringValueInformed(value);
       //Assert
       expect(result).toBeTruthy();
     });
-    it("Should return false if the string is not filled", () => {
+    it("Should return false if the value is empty", () => {
       //Arrange
-      const email = "";
+      const value = "";
       //Act
-      const result = isStringValueInformed(email);
+      const result = isStringValueInformed(value);
+      //Assert
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe("isValueNotNullOrUndefine", () => {
+    it("Should return true if the value is not null or undefine", () => {
+      //Arrange
+      const value = "test";
+      //Act
+      const result = isValueNotNullOrUndefined(value);
+      //Assert
+      expect(result).toBeTruthy();
+    });
+    it("Should return false if the value is null", () => {
+      //Arrange
+      const value = null;
+      //Act
+      const result = isValueNotNullOrUndefined(value);
+      //Assert
+      expect(result).toBeFalsy();
+    });
+    it("Should return false if the value is undefined", () => {
+      //Arrange
+      const value = undefined;
+      //Act
+      const result = isValueNotNullOrUndefined(value);
       //Assert
       expect(result).toBeFalsy();
     });

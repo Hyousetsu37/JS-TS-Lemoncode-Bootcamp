@@ -1,36 +1,23 @@
+import type { FormValidationResult } from "@/common/validations/validation.model";
+import { type CredentialsFormErrors } from "./login.vm";
 import {
-  createEmptyCredentialsFormErrors,
-  type CredentialsFormErrors,
-} from "./login.vm";
-
-export interface ValidationResult {
-  succeeded: boolean;
-  error: CredentialsFormErrors;
-}
+  validatePasswordField,
+  validateUserField,
+} from "./components/login-field.validation";
 
 export const validateForm = (
-  credentials: CredentialsFormErrors
-): ValidationResult => {
-  const validationResult: ValidationResult = {
-    succeeded: true,
-    error: createEmptyCredentialsFormErrors(),
+  credentials: CredentialsFormErrors,
+): FormValidationResult<CredentialsFormErrors> => {
+  const fieldValidationResults = [
+    validateUserField(credentials.user),
+    validatePasswordField(credentials.password),
+  ];
+
+  return {
+    succeeded: fieldValidationResults.every((field) => field.succeeded),
+    errors: {
+      user: fieldValidationResults[0].errorMessage ?? "",
+      password: fieldValidationResults[1].errorMessage ?? "",
+    },
   };
-
-  if (!credentials.user.trim()) {
-    validationResult.error = {
-      ...validationResult.error,
-      user: "Debe llenar el campo usuario",
-    };
-    validationResult.succeeded = false;
-  }
-
-  if (!credentials.password.trim()) {
-    validationResult.error = {
-      ...validationResult.error,
-      password: "Debe llenar el campo password",
-    };
-    validationResult.succeeded = false;
-  }
-
-  return validationResult;
 };

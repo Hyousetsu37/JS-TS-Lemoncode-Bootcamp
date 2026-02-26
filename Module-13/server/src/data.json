@@ -108,5 +108,39 @@
       "accountId": "3"
     }
   ],
-  "transfer": []
+  "transfer": [
+    {
+      "accountId": "2",
+      "iban": "ES91 2100 0418 4502 0005 1332",
+      "name": "Test",
+      "amount": "100",
+      "concept": "Testing",
+      "notes": "This is for testing",
+      "trasferDate": "Tue Feb 24 2026",
+      "realTransferDate": "",
+      "id": 1
+    },
+    {
+      "accountId": "2",
+      "iban": "ES91 2100 0418 4502 0005 1332",
+      "name": "Test",
+      "amount": "100",
+      "concept": "Testing",
+      "notes": "This is for testing",
+      "trasferDate": "Tue Feb 24 2026",
+      "realTransferDate": "",
+      "id": 2
+    },
+    {
+      "accountId": "3",
+      "iban": "ES91 2100 0418 4502 0005 1332",
+      "name": "Test",
+      "amount": "100",
+      "concept": "Testing2",
+      "notes": "This is for testing2",
+      "trasferDate": "Tue Feb 24 2026",
+      "realTransferDate": "",
+      "id": 3
+    }
+  ]
 }

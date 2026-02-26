@@ -6,3 +6,7 @@ export const isDateAfterToday = (date: Date): boolean => date > new Date();
 export const isValidEmail = (email: string): boolean =>
   validator.isEmail(email);
 export const isStringValueInformed = (field: string): boolean => field !== "";
+
+export const isValueNotNullOrUndefined = <T>(value: T): boolean => {
+  return value !== undefined && value !== null;
+};
