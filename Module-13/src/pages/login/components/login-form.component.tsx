@@ -5,8 +5,9 @@ import {
   type Credentials,
 } from "@/pages/login/login.vm";
 import { useState } from "react";
-import { validateForm, type ValidationResult } from "../login.validation";
+import { validateForm } from "../login.validation";
 import styles from "./login-form.component.module.css";
+import type { FormValidationResult } from "@/common/validations/validation.model";
 
 interface Props {
   onLogin: (credentials: Credentials) => void;
@@ -15,10 +16,10 @@ interface Props {
 export const LoginFormComponent: React.FC<Props> = (props) => {
   const { onLogin } = props;
   const [credentials, setCredentials] = useState<Credentials>(
-    createEmptyCredentials()
+    createEmptyCredentials(),
   );
   const [error, setError] = useState<CredentialsFormErrors>(
-    createEmptyCredentialsFormErrors()
+    createEmptyCredentialsFormErrors(),
   );
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +31,9 @@ export const LoginFormComponent: React.FC<Props> = (props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const ValidationResult: ValidationResult = validateForm(credentials);
-    setError(ValidationResult.error);
+    const ValidationResult: FormValidationResult<CredentialsFormErrors> =
+      validateForm(credentials);
+    setError(ValidationResult.errors);
     if (ValidationResult.succeeded) {
       onLogin(credentials);
     }

@@ -66,6 +66,7 @@ export const AccountFormComponent: React.FC<AccountFormComponentProps> = ({
               type="text"
               name="name"
               id="name"
+              className={style.small}
               onChange={hadleFieldChange}
             />
             <ErrorText errorText={errors.name} />
