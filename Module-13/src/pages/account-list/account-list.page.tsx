@@ -5,6 +5,7 @@ import styles from "./account-list.module.css";
 import { AccountListTableComponent } from "./components";
 import { getAccountList } from "./api";
 import { mapAccountListFromApitoVm } from "./account-list.mapper";
+import { Link } from "react-router-dom";
 
 export const AccountListPage: React.FC = () => {
   const [accountList, setAccountList] = React.useState<AccountVm[]>([]);
@@ -25,7 +26,9 @@ export const AccountListPage: React.FC = () => {
       <div className={styles.root}>
         <div className={styles.headerContainer}>
           <h1>Mis Cuentas</h1>
-          <button>Agregar Nueva Cuenta</button>
+          <Link className={styles.button} to={"/create-account"}>
+            Agregar Nueva Cuenta
+          </Link>
         </div>
         <AccountListTableComponent accountList={accountList} />
       </div>

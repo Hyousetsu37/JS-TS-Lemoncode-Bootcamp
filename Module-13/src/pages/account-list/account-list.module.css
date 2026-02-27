@@ -17,3 +17,18 @@
   font-size: 2.2rem;
   font-weight: 300;
 }
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--primary_color);
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: var(--element-radius);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 900;
+  transition: all ease 0.2s;
+  text-decoration: none;
+}

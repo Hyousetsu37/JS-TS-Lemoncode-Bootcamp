@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run start:vite && pnpm run start:mock-server",
+    "dev": "npm run start:vite && npm run start:mock-server",
     "start:vite": "vite",
-    "start:mock-server": "cd ./server && pnpm start",
+    "start:mock-server": "cd ./server && npm start",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

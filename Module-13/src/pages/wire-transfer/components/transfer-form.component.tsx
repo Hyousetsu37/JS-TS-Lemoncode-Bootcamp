@@ -10,6 +10,7 @@ import type { TransferError } from "../transfer.vm";
 import { validateForm } from "../validations";
 
 import style from "./transfer-form.component.module.css";
+import { ErrorText } from "@/components/error-text.component";
 
 interface TransferFormProps {
   accountList: AccountVm[];
@@ -78,7 +79,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
                 </option>
               ))}
             </select>
-            <p className={style.error}>{errors.accountId}</p>
+            <ErrorText errorText={errors.accountId} />
           </div>
           <div>
             <label htmlFor="">Ingrese el IBAN de destino</label>
@@ -88,7 +89,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
               onChange={handleFieldChange}
               className={style.large}
             />
-            <p className={style.error}>{errors.iban}</p>
+            <ErrorText errorText={errors.iban} />
           </div>
           <div>
             <label htmlFor="">Beneficiario</label>
@@ -98,7 +99,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
               onChange={handleFieldChange}
               className={style.large}
             />
-            <p className={style.error}>{errors.name}</p>
+            <ErrorText errorText={errors.name} />
           </div>
           <div>
             <label htmlFor="">Importe</label>
@@ -108,7 +109,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
               onChange={handleFieldChange}
               className={style.small}
             />
-            <p className={style.error}>{errors.amount}</p>
+            <ErrorText errorText={errors.amount} />
           </div>
           <div>
             <label htmlFor="concept">Concepto</label>
@@ -118,7 +119,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
               onChange={handleFieldChange}
               className={style.large}
             />
-            <p className={style.error}>{errors.concept}</p>
+            <ErrorText errorText={errors.concept} />
           </div>
           <div>
             <label htmlFor="notes">Observaciones</label>
@@ -128,7 +129,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
               onChange={handleFieldChange}
               className={style.large}
             />
-            <p className={style.error}>{errors.notes}</p>
+            <ErrorText errorText={errors.notes} />
           </div>
         </div>
 
@@ -145,7 +146,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
                 name="realDateTransfer"
                 onChange={handleFieldChange}
               />
-              <p className={style.error}>{errors.realDateTransfer}</p>
+              <ErrorText errorText={errors.realDateTransfer} />
             </div>
           </div>
         </div>
@@ -162,7 +163,7 @@ export const TransferFormComponent: React.FC<TransferFormProps> = ({
                 onChange={handleFieldChange}
                 className={style.large}
               />
-              <p className={style.error}>{errors.email}</p>
+              <ErrorText errorText={errors.email} />
             </div>
           </div>
         </div>

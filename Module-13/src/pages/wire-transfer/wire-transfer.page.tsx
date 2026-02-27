@@ -2,13 +2,14 @@ import { AppLayout } from "@/layouts";
 import React from "react";
 import type { AccountVm, TransferVm } from "./transfer.vm";
 import { TransferFormComponent } from "./components";
-import style from "./transfer.page.module.css";
 import { getAccountList, saveTransfer } from "./api/transfer.api";
 import {
   mapAccountFromApiToVm,
   mapTransferFromVmToApi,
 } from "./transfer.mapper";
 import { useParams } from "react-router-dom";
+import { PageHeader } from "@/components/page-header.component";
+import { PageContainer } from "@/components/page-container.component";
 
 export const WireTransferPage: React.FC = () => {
   const [accountList, setAccountList] = React.useState<AccountVm[]>([]);
@@ -40,14 +41,14 @@ export const WireTransferPage: React.FC = () => {
   };
   return (
     <AppLayout>
-      <div className={style.container}>
-        <h1 className={style.title}>Transferencias Nacionales</h1>
+      <PageContainer>
+        <PageHeader title="Transferencias Nacionales" />
         <TransferFormComponent
           accountList={accountList}
           onTransfer={handleTransfer}
           defaultAccountId={id}
         />
-      </div>
+      </PageContainer>
     </AppLayout>
   );
 };

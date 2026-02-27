@@ -1,0 +1,7 @@
+.title {
+  font-weight: 300;
+  font-size: 2.2rem;
+  border-bottom: 5px solid var(--secondary_color);
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}

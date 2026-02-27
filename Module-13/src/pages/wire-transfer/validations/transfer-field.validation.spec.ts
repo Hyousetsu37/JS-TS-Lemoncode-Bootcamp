@@ -63,7 +63,7 @@ describe("transfer-field.validation specs", () => {
       expect(result.errorMessage).toEqual(REQUIRED_FIELD_MESSAGE);
     });
 
-    it("should return false when Account Field is not empty", () => {
+    it("should return true when Account Field is not empty", () => {
       //Arrange
       const value = "2";
       //const emptyValue = "";

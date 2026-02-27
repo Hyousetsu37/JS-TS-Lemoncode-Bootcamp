@@ -1,0 +1,28 @@
+.form-container {
+  border: none;
+  border-bottom: 1px solid var(--secondary_color);
+  padding: 40px 0;
+  padding-bottom: 10px;
+}
+
+.form-container p {
+  font-size: 0.9em;
+  margin-bottom: 20px;
+}
+
+.form-container div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.form-container div p {
+  margin: 0 10px;
+}
+
+.form-container label {
+  margin-right: 20px;
+  min-width: 300px;
+  text-align: right;
+}
